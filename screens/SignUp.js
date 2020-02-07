@@ -19,6 +19,7 @@ import {
 } from "react-native";
 
 import Colors from "../constants/colors";
+import style from "../constants/style";
 
 export class SignUp extends Component {
   state = {
@@ -123,29 +124,7 @@ export class SignUp extends Component {
             width: "80%"
           }}
         >
-          <View
-            style={{
-              width: "47%",
-              alignItems: "center",
-              alignContent: "center",
-              borderWidth: 0.1,
-              borderColor: Colors.primary,
-              padding: 10,
-              marginTop: 20,
-              borderRadius: 10,
-              flexDirection: "row",
-              height: 50,
-              backgroundColor: "#fff",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 1
-              },
-              shadowOpacity: 0.22,
-              shadowRadius: 2.22,
-              elevation: 3
-            }}
-          >
+          <View style={[style.style.input, { width: "48%" }]}>
             <TextInput
               maxLength={50}
               onChangeText={text => this.firstNameChange(text)}
@@ -157,27 +136,8 @@ export class SignUp extends Component {
             ></TextInput>
           </View>
           <View
-            style={{
-              width: "47%",
-              alignItems: "center",
-              alignContent: "center",
-              borderWidth: 0.1,
-              borderColor: Colors.primary,
-              padding: 10,
-              marginTop: 20,
-              borderRadius: 10,
-              flexDirection: "row",
-              height: 50,
-              backgroundColor: "#fff",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 1
-              },
-              shadowOpacity: 0.22,
-              shadowRadius: 2.22,
-              elevation: 3
-            }}
+            // style={...style.style.input,{width:"50%"}}
+            style={[style.style.input, { width: "48%" }]}
           >
             <TextInput
               maxLength={50}
@@ -190,28 +150,7 @@ export class SignUp extends Component {
             ></TextInput>
           </View>
         </View>
-        <View
-          style={{
-            width: "80%",
-            alignItems: "flex-end",
-            borderWidth: 0.1,
-            borderColor: Colors.primary,
-            padding: 10,
-            marginTop: 20,
-            borderRadius: 10,
-            flexDirection: "row",
-            backgroundColor: "#fff",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1
-            },
-            shadowOpacity: 0.22,
-            shadowRadius: 2.22,
-            elevation: 3
-            // backgroundColor:"#e8e8e8"
-          }}
-        >
+        <View style={style.style.input}>
           <TextInput
             maxLength={50}
             onChangeText={text => this.onIdChange(text)}
@@ -223,27 +162,7 @@ export class SignUp extends Component {
             require
           ></TextInput>
         </View>
-        <View
-          style={{
-            width: "80%",
-            alignItems: "flex-end",
-            borderWidth: 0.1,
-            borderColor: Colors.primary,
-            padding: 10,
-            marginTop: 20,
-            borderRadius: 10,
-            flexDirection: "row",
-            backgroundColor: "#fff",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1
-            },
-            shadowOpacity: 0.22,
-            shadowRadius: 2.22,
-            elevation: 3
-          }}
-        >
+        <View style={style.style.input}>
           <TextInput
             maxLength={50}
             onChangeText={pass => this.onPassChange(pass)}
@@ -264,18 +183,7 @@ export class SignUp extends Component {
               marginVertical: 30
             }}
           >
-            <View
-              style={{
-                backgroundColor: Colors.primary,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 10,
-                height: 50,
-                // backgroundColor:"#555"
-                width: "50%",
-                maxWidth: 300
-              }}
-            >
+            <View style={style.style.button}>
               <Text style={{ color: "white" }}>Sign Up</Text>
             </View>
           </TouchableOpacity>

@@ -1,6 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
+import { BarCodeScanner } from "expo-barcode-scanner";
+
+import {
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Button,
+  Icon,
+  Title,
+  Text
+} from "native-base";
 
 export default function App(props) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -9,7 +21,7 @@ export default function App(props) {
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -30,18 +42,58 @@ export default function App(props) {
     <View
       style={{
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-      }}>
-        {/* <Text>QR Code Scanner</Text> */}
+        flexDirection: "column",
+        justifyContent: "flex-end"
+      }}
+    >
+      {/* <Text>QR Code Scanner</Text> */}
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
 
       {scanned && (
-        <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
+        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
     </View>
+    // <SafeAreaView style={styles.container}>
+    //   <Container>
+    //     <Header
+    //       style={{ backgroundColor: "white" }}
+    //       iosStatusbar="dark-content"
+    //       androidStatusBarColor="white"
+    //     >
+    //       <StatusBar barStyle="dark-content" />
+    //       <Left>
+    //         <Button
+    //           transparent
+    //           onPressIn={() => this.props.navigation.goBack()}
+    //         >
+    //           <Icon name="arrow-back" style={{ color: "black" }} />
+    //         </Button>
+    //       </Left>
+    //       <Body>
+    //         <Title style={{ color: "black" }}>Account</Title>
+    //       </Body>
+    //       <Right />
+    //       {/* <Right>
+    //         <Button transparent>
+    //           <Icon name='menu' />
+    //         </Button>
+    //       </Right> */}
+    //     </Header>
+    //     <BarCodeScanner
+    //       onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+    //       style={StyleSheet.absoluteFillObject}
+    //     />
+    //   </Container>
+    // </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+    // paddingTop: Platform.OS === "android" ? 24 : 0
+  }
+});

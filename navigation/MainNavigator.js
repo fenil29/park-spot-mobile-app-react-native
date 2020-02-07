@@ -16,8 +16,11 @@ import Login from "../screens/Login";
 import ParkingSpotDetails from "../components/ParkingSpotDetails";
 import QRCode from "../components/QRCode";
 import FirstLogin from "../screens/FirstLogin";
-import Home from "../screens/Home";
+import Home from "../screens/admin-screens/Home";
 import MyProfile from "../screens/MyProfile";
+import AddParkingLot from "../screens/AddParkingLot";
+import ShowParkingLotMap from "../screens/ShowParkingLotMap";
+import SelectLocationMaps from "../screens/SelectLocationMaps";
 
 import Colors from "../constants/colors";
 
@@ -155,6 +158,24 @@ const MainNavigator = createStackNavigator({
   },
   ParkingSpotDetails: {
     screen: ParkingSpotDetails,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  AddParkingLot: {
+    screen: AddParkingLot,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  ShowParkingLotMap: {
+    screen: ShowParkingLotMap,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  SelectLocationMaps: {
+    screen: SelectLocationMaps,
     navigationOptions: {
       headerShown: false
     }

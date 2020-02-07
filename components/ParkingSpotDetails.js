@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import {
   StyleSheet,
-  //  Text,
+  Text,
   View,
   BackHandler,
   SafeAreaView,
@@ -14,26 +14,33 @@ import {
 } from "react-native";
 
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
+  // Text,
   Icon,
-  Title,
-  Text
-} from "native-base";
+  Layout,
+  TopNavigation,
+  TopNavigationAction
+} from "@ui-kitten/components";
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
 
-
 export class ParkingSpotDetails extends Component {
+  BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
+
+  BackAction = () => (
+    <TopNavigationAction
+      icon={this.BackIcon}
+      onPressIn={() => this.props.navigation.goBack()}
+    />
+  );
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Container>
-        <Header style={{ backgroundColor: "white" }} iosStatusbar="dark-content" androidStatusBarColor="white">
+      <Layout style={styles.container}>
+        <TopNavigation
+          title="Parking Spot Details"
+          alignment="center"
+          leftControl={this.BackAction()}
+        />
+        {/* <Header style={{ backgroundColor: "white" }} iosStatusbar="dark-content" androidStatusBarColor="white">
           <StatusBar barStyle="dark-content"/>
             <Left>
               <Button
@@ -47,63 +54,57 @@ export class ParkingSpotDetails extends Component {
               <Title style={{ color: "black" }}>Parking Spot Details</Title>
             </Body>
             <Right />
-            {/* <Right>
-                <Button transparent>
-                  <Icon name='menu' />
-                </Button>
-              </Right> */}
-          </Header>
-          <View>
-            <View
-              style={{
-                marginHorizontal: 20,
-                marginTop: 20,
-                borderWidth: 0.1,
-                borderColor:Colors.primary,
-                padding: 20,
-                borderRadius: 5,
-                backgroundColor: "#fff",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-                
-                elevation: 6,
-              }}
-            >
-              <Text>Your Parking Spot Is:</Text>
-              <Text style={{textAlign:"center",fontSize:150}}>17</Text>
-            </View>
-            <View
-              style={{
-                marginHorizontal: 20,
-                marginTop: 20,
-                borderWidth: 0.1,
-                borderColor: "black",
-                padding: 20,
-                borderRadius: 5,
-                backgroundColor: "#fff",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-                
-                elevation: 6,
-              }}
-            >
-              <Text>Parking Lot Details</Text>
-              <Text>name</Text>
-              <Text>Address</Text>
-            </View>
+          </Header> */}
+        <View>
+          <View
+            style={{
+              marginHorizontal: 20,
+              marginTop: 20,
+              borderWidth: 0.1,
+              borderColor: Colors.primary,
+              padding: 20,
+              borderRadius: 5,
+              backgroundColor: "#fff",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6
+            }}
+          >
+            <Text>Your Parking Spot Is:</Text>
+            <Text style={{ textAlign: "center", fontSize: 150 }}>17</Text>
           </View>
-        </Container>
-      </SafeAreaView>
+          <View
+            style={{
+              marginHorizontal: 20,
+              marginTop: 20,
+              borderWidth: 0.1,
+              borderColor: "black",
+              padding: 20,
+              borderRadius: 5,
+              backgroundColor: "#fff",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6
+            }}
+          >
+            <Text>Parking Lot Details</Text>
+            <Text>name</Text>
+            <Text>Address</Text>
+          </View>
+        </View>
+      </Layout>
     );
   }
 }
@@ -112,7 +113,7 @@ export default ParkingSpotDetails;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
     // paddingTop: Platform.OS === "android" ? 24 : 0
   }
 });

@@ -1,0 +1,660 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200130.172523.13280.0.001.json",
+    "dumpEventTime": "2020-01-30T17:25:23Z",
+    "dumpEventTimeStamp": "1580385323649",
+    "processId": 13280,
+    "cwd": "D:\\Projects\\Smart Car Parking System with Data Analytics\\find-my-spot-mobile-app-react-native",
+    "commandLine": [
+      "C:\\Program Files\\nodejs\\\\node.exe",
+      "C:\\Program Files\\nodejs\\\\node_modules\\npm\\bin\\npm-cli.js",
+      "prefix",
+      "-g"
+    ],
+    "nodejsVersion": "v12.10.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.10.0",
+      "v8": "7.6.303.29-node.16",
+      "uv": "1.31.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.10.0/node-v12.10.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.10.0/node-v12.10.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.10.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18363",
+    "osVersion": "Windows 10 Home Single Language",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 892890,
+        "nice": 0,
+        "sys": 2132546,
+        "idle": 27880718,
+        "irq": 1176578
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 603328,
+        "nice": 0,
+        "sys": 456734,
+        "idle": 29845687,
+        "irq": 29500
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1964375,
+        "nice": 0,
+        "sys": 873875,
+        "idle": 28067500,
+        "irq": 18453
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 802343,
+        "nice": 0,
+        "sys": 741187,
+        "idle": 29362203,
+        "irq": 18421
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1545515,
+        "nice": 0,
+        "sys": 896015,
+        "idle": 28464203,
+        "irq": 29859
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 728421,
+        "nice": 0,
+        "sys": 373437,
+        "idle": 29803875,
+        "irq": 8531
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1369875,
+        "nice": 0,
+        "sys": 560140,
+        "idle": 28975718,
+        "irq": 12625
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1044984,
+        "nice": 0,
+        "sys": 493546,
+        "idle": 29367203,
+        "irq": 19015
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "bc:a8:a6:ae:c2:b1",
+        "address": "fe80::4d46:b332:ba31:5f6c",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 6
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "bc:a8:a6:ae:c2:b1",
+        "address": "192.168.0.105",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-51QH60T"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff6b38e6eb9",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b38eb24c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b38ea1f8",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b39d63cb",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b41c976e",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b41b1711",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b407f1cc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4086d81",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b407c7a3",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b407b044",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b409a855",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b3e094ed",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b45e300d",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b45e40d5",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4636d67",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4560abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b455a10c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4560abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4560abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4560abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4560abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4560abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b455e411",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b455dffc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b40d6a8c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b40d5776",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b41a837b",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b39fa57e",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b39fa827",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b39f96fa",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b399e775",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b39fa213",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b38bc91c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6b4690fd8",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ffff5fb7bd4",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ffff6e0ced1",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 3162112,
+    "totalCommittedMemory": 3162112,
+    "usedMemory": 2496392,
+    "availableMemory": 2195930976,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261832,
+        "used": 31432,
+        "available": 230400
+      },
+      "new_space": {
+        "memorySize": 1048576,
+        "committedMemory": 1048576,
+        "capacity": 1047328,
+        "used": 1047312,
+        "available": 16
+      },
+      "old_space": {
+        "memorySize": 1159168,
+        "committedMemory": 1159168,
+        "capacity": 1027616,
+        "used": 1027568,
+        "available": 48
+      },
+      "code_space": {
+        "memorySize": 425984,
+        "committedMemory": 425984,
+        "capacity": 154560,
+        "used": 154560,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 266240,
+        "committedMemory": 266240,
+        "capacity": 235520,
+        "used": 235520,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 0,
+        "used": 0,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 0,
+        "used": 0,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047328,
+        "used": 0,
+        "available": 1047328
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 0.031,
+    "kernelCpuSeconds": 0.031,
+    "cpuConsumptionPercent": 6.2,
+    "maxRss": 18452480,
+    "pageFaults": {
+      "IORequired": 4680,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 0,
+      "writes": 99
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "": "D:=D:\\Projects\\Smart Car Parking System with Data Analytics\\find-my-spot-mobile-app-react-native",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming",
+    "COLORTERM": "truecolor",
+    "COMMONPROGRAMFILES": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-51QH60T",
+    "COMSPEC": "C:\\Windows\\system32\\cmd.exe",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "EXEPATH": "C:\\Program Files\\Git\\bin",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "GOOGLE_DEFAULT_CLIENT_ID": "no",
+    "GOOGLE_DEFAULT_CLIENT_SECRET": "no",
+    "HOME": "C:\\Users\\Fenil_Kaneria",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\Fenil_Kaneria",
+    "INIT_CWD": "D:\\Projects\\Smart Car Parking System with Data Analytics\\find-my-spot-mobile-app-react-native",
+    "LANG": "en_US.UTF-8",
+    "LOCALAPPDATA": "C:\\Users\\Fenil_Kaneria\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-51QH60T",
+    "MSYSTEM": "MINGW64",
+    "NODE": "C:\\Program Files\\nodejs\\node.exe",
+    "NODE_EXE": "C:\\Program Files\\nodejs\\\\node.exe",
+    "NPM_CLI_JS": "C:\\Program Files\\nodejs\\\\node_modules\\npm\\bin\\npm-cli.js",
+    "npm_config_access": "",
+    "npm_config_allow_same_version": "",
+    "npm_config_also": "",
+    "npm_config_always_auth": "",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"start\"],\"original\":[\"start\"]}",
+    "npm_config_audit": "true",
+    "npm_config_audit_level": "low",
+    "npm_config_auth_type": "legacy",
+    "npm_config_before": "",
+    "npm_config_bin_links": "true",
+    "npm_config_browser": "",
+    "npm_config_ca": "",
+    "npm_config_cache": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm-cache",
+    "npm_config_cache_lock_retries": "10",
+    "npm_config_cache_lock_stale": "60000",
+    "npm_config_cache_lock_wait": "10000",
+    "npm_config_cache_max": "Infinity",
+    "npm_config_cache_min": "10",
+    "npm_config_cafile": "",
+    "npm_config_cert": "",
+    "npm_config_cidr": "",
+    "npm_config_color": "true",
+    "npm_config_commit_hooks": "true",
+    "npm_config_depth": "Infinity",
+    "npm_config_description": "true",
+    "npm_config_dev": "",
+    "npm_config_dry_run": "",
+    "npm_config_editor": "notepad.exe",
+    "npm_config_engine_strict": "",
+    "npm_config_fetch_retries": "2",
+    "npm_config_fetch_retry_factor": "10",
+    "npm_config_fetch_retry_maxtimeout": "60000",
+    "npm_config_fetch_retry_mintimeout": "10000",
+    "npm_config_force": "",
+    "npm_config_git": "git",
+    "npm_config_git_tag_version": "true",
+    "npm_config_global": "",
+    "npm_config_globalconfig": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm\\etc\\npmrc",
+    "npm_config_globalignorefile": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm\\etc\\npmignore",
+    "npm_config_global_style": "",
+    "npm_config_group": "",
+    "npm_config_ham_it_up": "",
+    "npm_config_heading": "npm",
+    "npm_config_https_proxy": "",
+    "npm_config_if_present": "",
+    "npm_config_ignore_prepublish": "",
+    "npm_config_ignore_scripts": "",
+    "npm_config_init_author_email": "",
+    "npm_config_init_author_name": "",
+    "npm_config_init_author_url": "",
+    "npm_config_init_license": "ISC",
+    "npm_config_init_module": "C:\\Users\\Fenil_Kaneria\\.npm-init.js",
+    "npm_config_init_version": "1.0.0",
+    "npm_config_json": "",
+    "npm_config_key": "",
+    "npm_config_legacy_bundling": "",
+    "npm_config_link": "",
+    "npm_config_local_address": "",
+    "npm_config_loglevel": "notice",
+    "npm_config_logs_max": "10",
+    "npm_config_long": "",
+    "npm_config_maxsockets": "50",
+    "npm_config_message": "%s",
+    "npm_config_metrics_registry": "https://registry.npmjs.org/",
+    "npm_config_node_gyp": "C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\node-gyp\\bin\\node-gyp.js",
+    "npm_config_node_options": "",
+    "npm_config_node_version": "12.10.0",
+    "npm_config_noproxy": "",
+    "npm_config_offline": "",
+    "npm_config_onload_script": "",
+    "npm_config_only": "",
+    "npm_config_optional": "true",
+    "npm_config_otp": "",
+    "npm_config_package_lock": "true",
+    "npm_config_package_lock_only": "",
+    "npm_config_parseable": "",
+    "npm_config_prefer_offline": "",
+    "npm_config_prefer_online": "",
+    "npm_config_prefix": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm",
+    "npm_config_preid": "",
+    "npm_config_production": "",
+    "npm_config_progress": "true",
+    "npm_config_proxy": "",
+    "npm_config_read_only": "",
+    "npm_config_rebuild_bundle": "true",
+    "npm_config_registry": "https://registry.npmjs.org/",
+    "npm_config_rollback": "true",
+    "npm_config_save": "true",
+    "npm_config_save_bundle": "",
+    "npm_config_save_dev": "",
+    "npm_config_save_exact": "",
+    "npm_config_save_optional": "",
+    "npm_config_save_prefix": "^",
+    "npm_config_save_prod": "",
+    "npm_config_scope": "",
+    "npm_config_scripts_prepend_node_path": "warn-only",
+    "npm_config_script_shell": "",
+    "npm_config_searchexclude": "",
+    "npm_config_searchlimit": "20",
+    "npm_config_searchopts": "",
+    "npm_config_searchstaleness": "900",
+    "npm_config_send_metrics": "",
+    "npm_config_shell": "C:\\Windows\\system32\\cmd.exe",
+    "npm_config_shrinkwrap": "true",
+    "npm_config_sign_git_commit": "",
+    "npm_config_sign_git_tag": "",
+    "npm_config_sso_poll_frequency": "500",
+    "npm_config_sso_type": "oauth",
+    "npm_config_strict_ssl": "true",
+    "npm_config_tag": "latest",
+    "npm_config_tag_version_prefix": "v",
+    "npm_config_timing": "",
+    "npm_config_tmp": "C:\\Users\\FENIL_~1\\AppData\\Local\\Temp",
+    "npm_config_umask": "0000",
+    "npm_config_unicode": "",
+    "npm_config_unsafe_perm": "true",
+    "npm_config_update_notifier": "true",
+    "npm_config_usage": "",
+    "npm_config_user": "",
+    "npm_config_userconfig": "C:\\Users\\Fenil_Kaneria\\.npmrc",
+    "npm_config_user_agent": "npm/6.10.3 node/v12.10.0 win32 x64",
+    "npm_config_version": "",
+    "npm_config_versions": "",
+    "npm_config_viewer": "browser",
+    "npm_execpath": "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+    "npm_lifecycle_event": "start",
+    "npm_lifecycle_script": "expo start",
+    "npm_node_execpath": "C:\\Program Files\\nodejs\\node.exe",
+    "npm_package_dependencies_expo": "~36.0.0",
+    "npm_package_dependencies_expo_barcode_scanner": "~8.0.0",
+    "npm_package_dependencies_expo_font": "~8.0.0",
+    "npm_package_dependencies_native_base": "^2.13.8",
+    "npm_package_dependencies_react": "~16.9.0",
+    "npm_package_dependencies_react_dom": "~16.9.0",
+    "npm_package_dependencies_react_native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "npm_package_dependencies_react_native_gesture_handler": "~1.5.0",
+    "npm_package_dependencies_react_native_maps": "0.26.1",
+    "npm_package_dependencies_react_native_reanimated": "~1.4.0",
+    "npm_package_dependencies_react_native_safe_area_context": "0.6.0",
+    "npm_package_dependencies_react_native_screens": "2.0.0-alpha.12",
+    "npm_package_dependencies_react_native_svg": "9.13.3",
+    "npm_package_dependencies_react_native_web": "~0.11.7",
+    "npm_package_dependencies_react_navigation": "^4.0.10",
+    "npm_package_dependencies_react_navigation_drawer": "^2.3.3",
+    "npm_package_dependencies_react_navigation_stack": "^2.0.15",
+    "npm_package_dependencies__react_native_community_masked_view": "0.1.5",
+    "npm_package_devDependencies_babel_preset_expo": "~8.0.0",
+    "npm_package_devDependencies__babel_core": "^7.0.0",
+    "npm_package_gitHead": "cd9f70b12b9d77676df41a5e7d49ffac425d5f25",
+    "npm_package_main": "node_modules/expo/AppEntry.js",
+    "npm_package_name": "",
+    "npm_package_private": "true",
+    "npm_package_scripts_android": "expo start --android",
+    "npm_package_scripts_eject": "expo eject",
+    "npm_package_scripts_ios": "expo start --ios",
+    "npm_package_scripts_start": "expo start",
+    "npm_package_scripts_web": "expo start --web",
+    "npm_package_version": "",
+    "NUMBER_OF_PROCESSORS": "8",
+    "OneDrive": "C:\\Users\\Fenil_Kaneria\\OneDrive",
+    "OS": "Windows_NT",
+    "PATH": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm\\node_modules\\expo-cli\\node_modules\\@expo\\xdl\\binaries\\windows\\adb;C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\npm-lifecycle\\node-gyp-bin;D:\\Projects\\Smart Car Parking System with Data Analytics\\find-my-spot-mobile-app-react-native\\node_modules\\.bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\Fenil_Kaneria\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files\\Intel\\WiFi\\bin;C:\\Program Files\\Common Files\\Intel\\WirelessCommon;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs;C:\\Users\\Fenil_Kaneria\\Anaconda3;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Library\\mingw-w64\\bin;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Library\\usr\\bin;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Library\\bin;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Scripts;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Programs\\Python\\Python38\\Scripts;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Programs\\Python\\Python38;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm;C:\\Users\\Fenil_Kaneria\\Downloads\\jdk-11.0.6_windows-x64_bin\\jdk-11.0.6\\bin;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\GitHubDesktop\\bin;C:\\Program Files\\heroku\\bin",
+    "Path": "C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm\\node_modules\\expo-cli\\node_modules\\@expo\\xdl\\binaries\\windows\\adb;C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\npm-lifecycle\\node-gyp-bin;D:\\Projects\\Smart Car Parking System with Data Analytics\\find-my-spot-mobile-app-react-native\\node_modules\\.bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\Fenil_Kaneria\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files\\Intel\\WiFi\\bin;C:\\Program Files\\Common Files\\Intel\\WirelessCommon;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs;C:\\Users\\Fenil_Kaneria\\Anaconda3;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Library\\mingw-w64\\bin;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Library\\usr\\bin;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Library\\bin;C:\\Users\\Fenil_Kaneria\\Anaconda3\\Scripts;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Programs\\Python\\Python38\\Scripts;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Programs\\Python\\Python38;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\Fenil_Kaneria\\AppData\\Roaming\\npm;C:\\Users\\Fenil_Kaneria\\Downloads\\jdk-11.0.6_windows-x64_bin\\jdk-11.0.6\\bin;C:\\Users\\Fenil_Kaneria\\AppData\\Local\\GitHubDesktop\\bin;C:\\Program Files\\heroku\\bin",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC",
+    "PLINK_PROTOCOL": "ssh",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 142 Stepping 10, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "8e0a",
+    "ProgramData": "C:\\ProgramData",
+    "PROGRAMFILES": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "PWD": "D:/Projects/Smart Car Parking System with Data Analytics/find-my-spot-mobile-app-react-native",
+    "SESSIONNAME": "Console",
+    "SHLVL": "2",
+    "SYSTEMDRIVE": "C:",
+    "SYSTEMROOT": "C:\\Windows",
+    "TEMP": "C:\\Users\\FENIL_~1\\AppData\\Local\\Temp",
+    "TERM": "cygwin",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.41.1",
+    "TMP": "C:\\Users\\FENIL_~1\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-51QH60T",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-51QH60T",
+    "USERNAME": "Fenil_Kaneria",
+    "USERPROFILE": "C:\\Users\\Fenil_Kaneria",
+    "WINDIR": "C:\\Windows",
+    "_": "C:/Program Files/nodejs/node.exe"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Windows\\SYSTEM32\\ntdll.dll",
+    "C:\\Windows\\System32\\KERNEL32.DLL",
+    "C:\\Windows\\System32\\KERNELBASE.dll",
+    "C:\\Windows\\System32\\WS2_32.dll",
+    "C:\\Windows\\System32\\RPCRT4.dll",
+    "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+    "C:\\Windows\\System32\\ADVAPI32.dll",
+    "C:\\Windows\\System32\\ucrtbase.dll",
+    "C:\\Windows\\System32\\msvcrt.dll",
+    "C:\\Windows\\System32\\sechost.dll",
+    "C:\\Windows\\System32\\USER32.dll",
+    "C:\\Windows\\System32\\win32u.dll",
+    "C:\\Windows\\System32\\GDI32.dll",
+    "C:\\Windows\\System32\\gdi32full.dll",
+    "C:\\Windows\\System32\\msvcp_win.dll",
+    "C:\\Windows\\System32\\PSAPI.DLL",
+    "C:\\Windows\\System32\\CRYPT32.dll",
+    "C:\\Windows\\System32\\MSASN1.dll",
+    "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\Windows\\SYSTEM32\\USERENV.dll",
+    "C:\\Windows\\System32\\bcrypt.dll",
+    "C:\\Windows\\System32\\profapi.dll",
+    "C:\\Windows\\SYSTEM32\\WINMM.dll",
+    "C:\\Windows\\SYSTEM32\\WINMMBASE.dll",
+    "C:\\Windows\\System32\\cfgmgr32.dll",
+    "C:\\Windows\\System32\\bcryptPrimitives.dll",
+    "C:\\Windows\\System32\\IMM32.DLL",
+    "C:\\Windows\\System32\\powrprof.dll",
+    "C:\\Windows\\System32\\UMPDC.dll",
+    "C:\\Windows\\system32\\uxtheme.dll",
+    "C:\\Windows\\System32\\combase.dll",
+    "C:\\Windows\\system32\\mswsock.dll",
+    "C:\\Windows\\System32\\kernel.appcore.dll",
+    "C:\\Windows\\System32\\NSI.dll",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\Windows\\SYSTEM32\\DNSAPI.dll",
+    "C:\\Windows\\system32\\napinsp.dll",
+    "C:\\Windows\\system32\\pnrpnsp.dll",
+    "C:\\Windows\\System32\\winrnr.dll",
+    "C:\\Windows\\system32\\NLAapi.dll",
+    "C:\\Windows\\system32\\wshbth.dll"
+  ]
+}

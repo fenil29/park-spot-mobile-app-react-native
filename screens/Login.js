@@ -17,45 +17,42 @@ import {
   AsyncStorage,
   KeyboardAvoidingView
 } from "react-native";
-import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Segment,
-  Content,
-  Text,
-  Tab,
-  Tabs,
-  TabHeading
-} from "native-base";
+
+import { Layout, Tab, TabView, Text } from "@ui-kitten/components";
+
 // import { MaterialCommunityIcons,AntDesign } from "@expo/vector-icons";
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 
 import Colors from "../constants/colors";
 
-import SignIn from "./SignIn"
-import SignUp from "./SignUp"
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 export default class Login extends Component {
- 
- 
-
+  state = {
+    selectedIndex: 0
+  };
+  setSelectedIndex = e => {
+    // console.log(e)
+    this.setState({ selectedIndex: e });
+  };
   componentDidMount() {}
 
   componentWillUnmount() {}
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled={false}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+        enabled={false}
+      >
         <View style={styles.container}>
           <ScrollView
             contentContainerStyle={{
               // backgroundColor: "#444",
-              alignItems: "center",
+              // alignItems: "center",
+              // justifyContent:"center",
               paddingTop: 50
             }}
           >
@@ -71,64 +68,36 @@ export default class Login extends Component {
               // backgroundColor: "#999"
             }}
           /> */}
-            <Text>FIND MY SPOT</Text>
+            <View style={{ alignItems: "center" }}>
+              <Image
+                source={require("../assets/logo.png")}
+                sc
+                style={{
+                  width: "50%",
+                  maxWidth: 250,
+                  height: 100,
+                  resizeMode: "contain",
+                  marginBottom: 10
 
-            {/* <Text
-              style={{
-                fontSize: 24,
-                marginTop: 50,
-                marginBottom: 20,
-                // backgroundColor: "#888",
-                width: "80%",
-                textAlign: "center",
-                color: Colors.primary
-              }}
+                  // backgroundColor: "#999"
+                }}
+              />
+            </View>
+
+            {/* <Text>FIND MY SPOT</Text> */}
+
+            <TabView
+              selectedIndex={this.state.selectedIndex}
+              onSelect={this.setSelectedIndex}
+              // indicatorStyle={{backgroundColor:Colors.primary}}
             >
-              Sign in
-            </Text> */}
-            <Tabs
-              tabBarUnderlineStyle={{
-                backgroundColor: Colors.primary,
-                borderRadius: 10
-              }}
-              style={{ overflow: "hidden", marginTop: 40 }}
-
-            >
-              <Tab
-                heading={
-                  <TabHeading
-                    style={{ backgroundColor: "#fff", shadowColor: "red" }}
-                  >
-                    <Text style={{ color: Colors.primary }}>Sign In</Text>
-                  </TabHeading>
-                }
-              >
-                <SignIn Cprops={this.props}/>
+              <Tab title="Sign In">
+                <SignIn Cprops={this.props} />
               </Tab>
-              <Tab
-                heading={
-                  <TabHeading style={{ backgroundColor: "#fff" }}>
-                    <Text style={{ color: Colors.primary }}>Sign Up</Text>
-                  </TabHeading >
-                }
-              >
-                <SignUp Cprops={this.props}/>
+              <Tab title="Sign Up">
+                <SignUp Cprops={this.props} />
               </Tab>
-            </Tabs>
-            
-
-            {/* <View
-            style={{
-              flexDirection: "row",
-              // backgroundColor: "#333",
-              marginVertical: 10,
-              width: "70%",
-              justifyContent: "space-around"
-            }}
-          >
-            <Text style={{}}>Don't have account yet?</Text>
-            <Text style={{ color: Colors.primary }}>Sign Up </Text>
-          </View> */}
+            </TabView>
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
@@ -145,5 +114,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
     // alignItems: "center"
     // justifyContent: 'center',
+  },
+  tabContainer: {
+    minHeight: 64
   }
 });
