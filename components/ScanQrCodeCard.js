@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import {
   StyleSheet,
-  //  Text,
+  // Text,
   View,
   BackHandler,
   SafeAreaView,
@@ -13,17 +13,10 @@ import {
   StatusBar,
   TouchableWithoutFeedback
 } from "react-native";
+
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
   Text
-} from "native-base";
+} from "@ui-kitten/components";
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
 export class ScanQrCodeCard extends Component {

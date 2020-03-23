@@ -21,15 +21,13 @@ import {
   TopNavigationAction
 } from "@ui-kitten/components";
 
-import { AreaChart, Grid } from "react-native-svg-charts";
+import { BarChart, Grid, YAxis, XAxis } from "react-native-svg-charts";
 import * as shape from "d3-shape";
-
-import {GlobalContext} from "../context/GlobalState";
 
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
 
-export class MyProfile extends Component {
+export class ParkingLotDetails extends Component {
   BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
 
   BackAction = () => (
@@ -39,18 +37,16 @@ export class MyProfile extends Component {
     />
   );
   render() {
+    const fill = "rgb(134, 65, 244)";
     return (
-      <GlobalContext.Consumer>
-           {context =>
+      <Layout style={styles.container}>
+        <TopNavigation
+          title="Parking Lot Details"
+          alignment="center"
+          leftControl={this.BackAction()}
+        />
 
-        (<Layout style={styles.container}>
-          <TopNavigation
-            title="Account"
-            alignment="center"
-            leftControl={this.BackAction()}
-          />
-
-          {/* <Header
+        {/* <Header
           style={{ backgroundColor: "white" }}
           iosStatusbar="dark-content"
           androidStatusBarColor="white"
@@ -69,41 +65,40 @@ export class MyProfile extends Component {
           </Body>
           <Right />
         </Header> */}
-          <Text>profile info</Text>
-          <AreaChart
-            style={{ height: 200 }}
-            data={[
-              50,
-              10,
-              40,
-              95,
-              -4,
-              -24,
-              85,
-              91,
-              35,
-              53,
-              -53,
-              24,
-              50,
-              -20,
-              -80
-            ]}
+        <Text>{JSON.stringify(this.props.navigation.state)}</Text>
+        <View style={{ height: 200, flexDirection: "row" }}>
+          <YAxis
+            data={[6, 5, 7, 4, 1, 9, 5, 3]}
+            svg={{
+              fill: "grey",
+              fontSize: 10
+            }}
+            contentInset={{ top: 20, bottom: 20 }}
+            numberOfTicks={10}
+            formatLabel={value => `${value}`}
+          />
+          <BarChart
+            style={{ flex: 1, marginLeft: 16 }}
+            data={[6, 5, 7, 4, 1, 9, 5, 3]}
+            svg={{ fill }}
             contentInset={{ top: 30, bottom: 30 }}
-            curve={shape.curveNatural}
-            svg={{ fill: "rgba(134, 65, 244, 0.8)" }}
           >
             <Grid />
-          </AreaChart>
-          <Text>{JSON.stringify(context)}</Text>
-        </Layout>)
-         }
-     </GlobalContext.Consumer> 
+          </BarChart>
+        </View>
+        <XAxis
+          style={{ marginHorizontal: 0 }}
+          data={[6, 5, 7, 4, 1, 9, 5, 3]}
+          formatLabel={(value, index) => index}
+          contentInset={{ left: 10, right: 10 }}
+          svg={{ fontSize: 10, fill: "black" }}
+        />
+      </Layout>
     );
   }
 }
 
-export default MyProfile;
+export default ParkingLotDetails;
 
 const styles = StyleSheet.create({
   container: {

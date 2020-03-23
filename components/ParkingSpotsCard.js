@@ -14,16 +14,8 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
   Text
-} from "native-base";
+} from "@ui-kitten/components";
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
 export class ParkingSpotsCard extends Component {

@@ -13,77 +13,59 @@ import {
   StatusBar,
   TouchableWithoutFeedback
 } from "react-native";
+
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
   Icon,
-  Title,
-  Text
-} from "native-base";
+  Layout,
+  TopNavigation,
+  TopNavigationAction
+} from "@ui-kitten/components";
 
 import Colors from "../../constants/colors";
 
-import ScanQrCodeCard from "../../components/ScanQrCodeCard"
-import ParkingSpotsCard from "../../components/ParkingSpotsCard"
+import ScanQrCodeCard from "../../components/ScanQrCodeCard";
+import ParkingSpotsCard from "../../components/ParkingSpotsCard";
 
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
 export class Home extends Component {
+  BackIcon = style => <Icon {...style} name="menu-outline" />;
+
+  BackAction = () => (
+    <TopNavigationAction
+      icon={this.BackIcon}
+      onPressIn={() => this.props.navigation.toggleDrawer()}
+    />
+  );
+
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Container
-        // style={{ backgroundColor: "#f7faff" }}
-        >
-          <Header
-            style={{ backgroundColor: "white" }}
-            iosStatusbar="dark-content"
-            androidStatusBarColor="white"
-          >
-            <StatusBar barStyle="dark-content" />
-            <Left>
-              <Button
-                transparent
-                onPressIn={() => this.props.navigation.toggleDrawer()}
-              >
-                <Icon name="menu" style={{ color: "black" }} />
-              </Button>
-            </Left>
-            <Body>
-              <Title style={{ color: "black" }}>Find My Spot</Title>
-            </Body>
-            <Right />
-            {/* <Right>
-          <Button transparent>
-            <Text>Cancel</Text>
-          </Button>
-        </Right> */}
-          </Header>
-          <View
-            style={{
-              flexDirection: "row",
-              // backgroundColor:"blue",
-              justifyContent: "space-between",
-              marginHorizontal: 20,
-              // marginTop: 30,
-              flexWrap: "wrap"
-              // height:"10"
-            }}
-          >
-            <ScanQrCodeCard onClick={()=> this.props.navigation.navigate("QRCode")}/>
-            <ParkingSpotsCard onClick={()=>  console.log("home card")}/>
-            
+      <Layout style={styles.container}>
+        <TopNavigation
+          title="Find My Spot"
+          alignment="center"
+          leftControl={this.BackAction()}
+        />
 
-            {/* <View>
-              <Foundation name="map" size={32} color="black" />
-            </View> */}
-          </View>
-        </Container>
-      </SafeAreaView>
+        <View
+          style={{
+            flexDirection: "row",
+            // backgroundColor:"blue",
+            justifyContent: "space-between",
+            marginHorizontal: 20,
+            // marginTop: 30,
+            flexWrap: "wrap"
+            // height:"10"
+          }}
+        >
+          <ScanQrCodeCard
+            onClick={() => this.props.navigation.navigate("QRCode")}
+          />
+          <ParkingSpotsCard
+            onClick={() => this.props.navigation.navigate("ShowParkingLotMap")}
+          />
+        </View>
+      </Layout>
     );
   }
 }

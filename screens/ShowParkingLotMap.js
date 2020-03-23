@@ -17,18 +17,6 @@ import {
   StatusBar
 } from "react-native";
 
-import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
-  Text,
-  Spinner
-} from "native-base";
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
 import style from "../constants/style";
@@ -37,6 +25,15 @@ import SelectLocationMaps from "./SelectLocationMaps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
+
+import {
+  Text,
+  Icon,
+  Layout,
+  TopNavigation,
+  TopNavigationAction,
+  Spinner
+} from "@ui-kitten/components";
 
 export default class ShowParkingLotMap extends React.Component {
   state = {
@@ -48,15 +45,16 @@ export default class ShowParkingLotMap extends React.Component {
     permission: false
   };
   componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/posts")
+    fetch("http://192.168.0.102:3000/pd")
+    // fetch("http://google.com")
       .then(response => response.json())
       .then(responseJson => {
         // console.log(responseJson);
-        responseJson = [ { pd_loc_cood: "22.599936,72.8205" }];
+        // responseJson = [ { pd_loc_cood: "22.599936,72.8205" }];
         if (responseJson.length == 0) {
           throw new Error("empty");
         }
-        if (!responseJson[0].pd_loc_cood) {
+        if (!responseJson[0].latitude) {
           throw new Error("Invalid Data");
         }
         this.setState(
@@ -95,9 +93,17 @@ export default class ShowParkingLotMap extends React.Component {
     let location = await Location.getCurrentPositionAsync({});
     // this.setState({ location });
     this.setState({
-      location: { coords: { latitude: 22.599936, longitude: 72.8205 } }
+      location: { coords: { latitude: 32.715069, longitude: -117.15552 } }
     });
   };
+  BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
+
+  BackAction = () => (
+    <TopNavigationAction
+      icon={this.BackIcon}
+      onPressIn={() => this.props.navigation.goBack()}
+    />
+  );
   render() {
     //   <View
     //   style={{
@@ -111,7 +117,7 @@ export default class ShowParkingLotMap extends React.Component {
     // <Text>Allow Location Permission to Use This Feature</Text>
     // </View>
 
-    if (!this.state.permission || !this.state.location) {
+    if (!this.state.permission) {
       return (
         <View
           style={{
@@ -122,6 +128,21 @@ export default class ShowParkingLotMap extends React.Component {
           }}
         >
           <Text>Allow Location Permission to Use This Feature</Text>
+        </View>
+      );
+    }
+
+    if (!this.state.location) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}
+        >
+          <Spinner color="blue" />
         </View>
       );
     } else if (this.state.isLoading) {
@@ -166,7 +187,12 @@ export default class ShowParkingLotMap extends React.Component {
       );
     }
     return (
-      <View style={styles.container}>
+      <View >
+        <TopNavigation
+          title="Parking Lot"
+          alignment="center"
+          leftControl={this.BackAction()}
+        />
         <MapView
           style={styles.mapStyle}
           initialRegion={{
@@ -179,10 +205,11 @@ export default class ShowParkingLotMap extends React.Component {
           {this.state.parkingLotList.map(mapInfo => (
             <MapView.Marker
               coordinate={{
-                latitude: Number(mapInfo.pd_loc_cood.split(",")[0]),
-                longitude: Number(mapInfo.pd_loc_cood.split(",")[1])
+                latitude: Number(mapInfo.latitude),
+                longitude: Number(mapInfo.longitude)
               }}
               title={mapInfo.pd_loc_name}
+              onCalloutPress={()  => this.props.navigation.navigate("ParkingLotDetails",{data:mapInfo})}
             />
           ))}
         </MapView>
@@ -200,6 +227,7 @@ const styles = StyleSheet.create({
   },
   mapStyle: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height
+    // height: Dimensions.get("window").height
+    height: "100%"
   }
 });

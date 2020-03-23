@@ -18,14 +18,17 @@ import QRCode from "../components/QRCode";
 import FirstLogin from "../screens/FirstLogin";
 import Home from "../screens/admin-screens/Home";
 import MyProfile from "../screens/MyProfile";
+import MyParkingLot from "../screens/MyParkingLot";
+import ParkingLotDetails from "../screens/ParkingLotDetails";
 import AddParkingLot from "../screens/AddParkingLot";
 import ShowParkingLotMap from "../screens/ShowParkingLotMap";
 import SelectLocationMaps from "../screens/SelectLocationMaps";
+import QRCodeGenerator from "../screens/QRCodeGenerator";
 
 import Colors from "../constants/colors";
 
 import { 
-  Feather,MaterialCommunityIcons } from "@expo/vector-icons";
+  Feather,MaterialCommunityIcons,FontAwesome } from "@expo/vector-icons";
 
 
 const CustomDrawerComponent = props => {
@@ -86,6 +89,23 @@ const SideNavigator = createDrawerNavigator(
           name="account-outline"
           size={27}
           color="#000000"
+          style={{
+            // backgroundColor:"red"
+          }}
+        />
+        )
+      }
+    },
+    "MyParkingLot": {
+      screen: MyParkingLot,
+      navigationOptions: {
+        drawerLabel: "View All Entry",
+        drawerIcon: () => (
+         
+          <FontAwesome
+          name="list-alt"
+          size={20}
+          color="black"
           style={{
             // backgroundColor:"red"
           }}
@@ -176,6 +196,18 @@ const MainNavigator = createStackNavigator({
   },
   SelectLocationMaps: {
     screen: SelectLocationMaps,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  ParkingLotDetails: {
+    screen: ParkingLotDetails,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  QRCodeGenerator: {
+    screen: QRCodeGenerator,
     navigationOptions: {
       headerShown: false
     }

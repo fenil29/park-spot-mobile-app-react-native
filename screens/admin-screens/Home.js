@@ -26,6 +26,7 @@ import Colors from "../../constants/colors";
 import ScanQrCodeCard from "../../components/ScanQrCodeCard";
 import ParkingSpotsCard from "../../components/ParkingSpotsCard";
 import AddParkingLotCard from "../../components/AddParkingLotCard";
+import MyParkingLotCard from "../../components/MyParkingLotCard";
 
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
@@ -67,6 +68,9 @@ export class Home extends Component {
           />
           <AddParkingLotCard
             onClick={() => this.props.navigation.navigate("AddParkingLot")}
+          />
+          <MyParkingLotCard
+            onClick={() => this.props.navigation.navigate("MyParkingLot")}
           />
           {/* <View>
               <Foundation name="map" size={32} color="black" />

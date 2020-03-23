@@ -3,16 +3,9 @@ import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
   Button,
-  Icon,
-  Title,
   Text
-} from "native-base";
+} from "@ui-kitten/components";
 
 export default function App(props) {
   const [hasPermission, setHasPermission] = useState(null);

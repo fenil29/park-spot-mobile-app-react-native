@@ -16,7 +16,7 @@ import {
 import {
   Text
 } from "@ui-kitten/components";
-import { Ionicons, Foundation } from "@expo/vector-icons";
+import { MaterialIcons, Foundation } from "@expo/vector-icons";
 
 export class ParkingSpotsCard extends Component {
   render() {
@@ -47,9 +47,9 @@ export class ParkingSpotsCard extends Component {
             elevation: 7
           }}
         >
-          <Ionicons
-            name="ios-add"
-            size={70}
+          <MaterialIcons
+            name="local-parking"
+            size={50}
             color="black"
             // color={Colors.primary}
             color="black"
@@ -57,12 +57,12 @@ export class ParkingSpotsCard extends Component {
           <Text
             style={{
               fontSize: 13,
-              marginTop: 0,
+              marginTop: 10,
               //  color: Colors.primary
               color: "black"
             }}
           >
-            Add Parking Lot
+            My Parking Lot
           </Text>
         </View>
       </TouchableWithoutFeedback>

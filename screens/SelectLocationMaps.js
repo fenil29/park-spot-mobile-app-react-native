@@ -19,6 +19,7 @@ export default class SelectLocationMaps extends React.Component {
   }
   render() {
     return (
+      
       <Modal
         animationType="slide"
         transparent={false}

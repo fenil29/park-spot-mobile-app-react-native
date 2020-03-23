@@ -21,13 +21,20 @@ import {
 import Colors from "../constants/colors";
 import style from "../constants/style";
 
+import { CheckBox } from "@ui-kitten/components";
+
 export class SignUp extends Component {
   state = {
     IdChangeVariable: String,
     onPassChangeVariable: String,
     loadingSpinner: false,
     firstName: "",
-    lastName: ""
+    lastName: "",
+    Checked: false,
+    firstNameError: false,
+    lastNameError: false,
+    userIdError: false,
+    passwordError: false
   };
   // firstTimeForLoginDataRetrieval=true;
 
@@ -49,69 +56,15 @@ export class SignUp extends Component {
     this.setState({ lastName: text });
     console.log(this.state.lastName);
   };
+  onCheckedChange = bool => {
+    // console.log(bool)
+    this.setState(prevState => ({
+      Checked: !prevState.Checked
+    }));
+  };
 
   handleSignUp = () => {
     this.props.Cprops.navigation.navigate("HomeScreen");
-    return;
-    this.setState({ loadingSpinner: true });
-    // console.log("here");
-    // console.log( typeof this.state.IdChangeVariable == "function", typeof this.state.onPassChangeVariable)
-    // this.props.navigation.navigate('FirstLogin')
-    // if()
-    if (
-      typeof this.state.IdChangeVariable != "string" ||
-      typeof this.state.onPassChangeVariable != "string" ||
-      this.state.IdChangeVariable.length < 1 ||
-      this.state.onPassChangeVariable.length < 1 ||
-      this.state.IdChangeVariable.length > 50 ||
-      this.state.onPassChangeVariable.length > 50
-    ) {
-      Alert.alert("Enter valid Id and Password");
-      this.setState({ loadingSpinner: false });
-      return;
-    }
-    fetch("example.com", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        userid: this.state.IdChangeVariable,
-        password: this.state.onPassChangeVariable
-      })
-    })
-      .then(response => {
-        console.log(response.status); // Will show you the status
-        if (response.status != 200) {
-          this.setState({ loadingSpinner: false });
-          Alert.alert("Wrong Id or Password");
-        }
-        return response.json();
-      })
-      .then(responseJson => {
-        console.log(responseJson);
-        tempResponse = responseJson;
-        // response 0 -> user is logging in first time
-        // response 1 -> user logged in before
-        if (!tempResponse.Authentication) {
-          this.setState({ loadingSpinner: false });
-          Alert.alert("Wrong Id or Password");
-          return;
-        }
-        if (tempResponse.Status == 0) {
-          this.props.navigation.replace("FirstLogin");
-        }
-        if (tempResponse.Status == 1) {
-        }
-        // return responseJson.movies;
-        console.log(responseJson);
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ loadingSpinner: false });
-        Alert.alert("Try Again");
-      });
   };
   render() {
     return (
@@ -124,7 +77,15 @@ export class SignUp extends Component {
             width: "80%"
           }}
         >
-          <View style={[style.style.input, { width: "48%" }]}>
+          <View
+            style={[
+              style.style.input,
+              { width: "48%" },
+              this.state.firstNameError
+                ? { borderColor: "red", borderWidth: 1 }
+                : {}
+            ]}
+          >
             <TextInput
               maxLength={50}
               onChangeText={text => this.firstNameChange(text)}
@@ -135,9 +96,16 @@ export class SignUp extends Component {
               placeholder="First Name"
             ></TextInput>
           </View>
+        
           <View
             // style={...style.style.input,{width:"50%"}}
-            style={[style.style.input, { width: "48%" }]}
+            style={[
+              style.style.input,
+              { width: "48%" },
+              this.state.lastNameError
+                ? { borderColor: "red", borderWidth: 1 }
+                : {}
+            ]}
           >
             <TextInput
               maxLength={50}
@@ -150,7 +118,15 @@ export class SignUp extends Component {
             ></TextInput>
           </View>
         </View>
-        <View style={style.style.input}>
+          {(this.state.lastNameError ||  this.state.firstNameError )&& (
+            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          )}
+        <View
+          style={[
+            style.style.input,
+            this.state.userIdError ? { borderColor: "red", borderWidth: 1 } : {}
+          ]}
+        >
           <TextInput
             maxLength={50}
             onChangeText={text => this.onIdChange(text)}
@@ -162,7 +138,15 @@ export class SignUp extends Component {
             require
           ></TextInput>
         </View>
-        <View style={style.style.input}>
+        {this.state.userIdError && (
+          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+        )}
+        <View
+          style={[
+            style.style.input,
+            this.state.passwordError ? { borderColor: "red", borderWidth: 1 } : {}
+          ]}
+        >
           <TextInput
             maxLength={50}
             onChangeText={pass => this.onPassChange(pass)}
@@ -171,6 +155,19 @@ export class SignUp extends Component {
             required
           ></TextInput>
         </View>
+        {this.state.passwordError && (
+          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+        )}
+        <View style={{ marginTop: 20 }}>
+          <CheckBox
+            text={`Create account as Parking Provider`}
+            checked={this.state.Checked}
+            onPressIn={this.onCheckedChange}
+          />
+        </View>
+
+        {/* <Text style={{ color: "red", fontSize: 13,marginTop:13 }}>Wrong User Id or Password</Text> */}
+
         {!this.state.loadingSpinner ? (
           <TouchableOpacity
             activeOpacity={0.7}
@@ -180,7 +177,7 @@ export class SignUp extends Component {
             style={{
               alignItems: "center",
               width: "100%",
-              marginVertical: 30
+              marginVertical: 20
             }}
           >
             <View style={style.style.button}>
@@ -189,19 +186,18 @@ export class SignUp extends Component {
           </TouchableOpacity>
         ) : (
           <ActivityIndicator
-            style={{ height: 50, marginVertical: 30 }}
+            style={{ height: 50, marginVertical: 20 }}
             size="large"
             color={Colors.primary}
           />
         )}
-        <View>
+        {/* <View>
           <TouchableWithoutFeedback onPress={() => {}}>
-            {/* <Text></Text> */}
             <Text style={{ textDecorationLine: "underline" }}>
               Create account as Parking Provider
             </Text>
           </TouchableWithoutFeedback>
-        </View>
+        </View> */}
       </View>
     );
   }

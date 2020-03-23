@@ -11,7 +11,9 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableNativeFeedback,
-  StatusBar
+  StatusBar,
+  ActivityIndicator,
+  Alert
 } from "react-native";
 
 import {
@@ -35,11 +37,15 @@ export class AddParkingLot extends Component {
     selectLocationMapsModel: false,
     location: false,
     errorMessage: null,
-    parkingLotName: String,
-    parkingLotAddress: String,
-    parkingLotPinCode: String,
-    parkingLotCity: String,
-    parkingLotState: String,
+    parkingLotName: "",
+    parkingLotNameError: false,
+    parkingLotAddress: "",
+    parkingLotAddressError: false,
+    parkingLotPinCode: "",
+    parkingLotPinCodeError: false,
+    hourlyRate: "",
+    totalSpot: "",
+    partotalSpotError: false,
     loadingSpinner: false
   };
   BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
@@ -60,6 +66,38 @@ export class AddParkingLot extends Component {
       this._getLocationAsync();
     }
   }
+
+  handleSignIn = () => {
+    this.setState({ loadingSpinner: true });
+    if (this.state.parkingLotName.length == 0) {
+      this.setState({ parkingLotNameError: true });
+      this.setState({ loadingSpinner: false });
+    } else {
+      this.setState({ parkingLotNameError: false });
+      this.setState({ loadingSpinner: false });
+    }
+    if (this.state.parkingLotAddress.length == 0) {
+      this.setState({ parkingLotAddressError: true });
+      this.setState({ loadingSpinner: false });
+    } else {
+      this.setState({ parkingLotAddressError: false });
+      this.setState({ loadingSpinner: false });
+    }
+    if (this.state.parkingLotPinCode.length == 0) {
+      this.setState({ parkingLotPinCodeError: true });
+      this.setState({ loadingSpinner: false });
+    } else {
+      this.setState({ parkingLotPinCodeError: false });
+      this.setState({ loadingSpinner: false });
+    }
+    if (this.state.totalSpot.length == 0) {
+      this.setState({ partotalSpotError: true });
+      this.setState({ loadingSpinner: false });
+    } else {
+      this.setState({ partotalSpotError: false });
+      this.setState({ loadingSpinner: false });
+    }
+  };
 
   onLocationChange = e => {
     this.setState({ location: { coords: e } });
@@ -129,19 +167,38 @@ export class AddParkingLot extends Component {
             marginTop: 10
           }}
         >
-          <View style={style.style.input}>
+          <View
+            style={[
+              style.style.input,
+              this.state.parkingLotNameError
+                ? { borderColor: "red", borderWidth: 1 }
+                : {}
+            ]}
+          >
             <TextInput
               maxLength={50}
               onChange={text => this.onChange("parkingLotName", text)}
               style={{
                 width: "85%"
+                // borderColor:"red",
+                // borderWidth:10
                 // ,fontSize:10
               }}
               placeholder="Parking Lot Name"
               require
             ></TextInput>
           </View>
-          <View style={style.style.input}>
+          {this.state.parkingLotNameError && (
+            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          )}
+          <View
+            style={[
+              style.style.input,
+              this.state.parkingLotAddressError
+                ? { borderColor: "red", borderWidth: 1 }
+                : {}
+            ]}
+          >
             <TextInput
               maxLength={200}
               onChange={text => this.onChange("parkingLotAddress", text)}
@@ -153,7 +210,17 @@ export class AddParkingLot extends Component {
               require
             ></TextInput>
           </View>
-          <View style={style.style.input}>
+          {this.state.parkingLotAddressError && (
+            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          )}
+          <View
+            style={[
+              style.style.input,
+              this.state.parkingLotPinCodeError
+                ? { borderColor: "red", borderWidth: 1 }
+                : {}
+            ]}
+          >
             <TextInput
               keyboardType="numeric"
               maxLength={20}
@@ -163,33 +230,49 @@ export class AddParkingLot extends Component {
                 // ,fontSize:10
               }}
               placeholder="Parking Lot Pin Code"
-              require
             ></TextInput>
           </View>
+          {this.state.parkingLotPinCodeError && (
+            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          )}
+
           <View style={style.style.input}>
             <TextInput
+              keyboardType="number-pad"
               maxLength={20}
-              onChange={text => this.onChange("parkingLotCity", text)}
+              onChange={text => this.onChange("HourlyRate", text)}
               style={{
                 width: "85%"
                 // ,fontSize:10
               }}
-              placeholder="Parking Lot City"
+              placeholder="Hourly Rate"
               require
             ></TextInput>
           </View>
-          <View style={style.style.input}>
+          <View
+            style={[
+              style.style.input,
+              this.state.partotalSpotError
+                ? { borderColor: "red", borderWidth: 1 }
+                : {}
+            ]}
+          >
             <TextInput
+              keyboardType="number-pad"
               maxLength={20}
-              onChange={text => this.onChange("parkingLotState", text)}
+              onChange={text => this.onChange("totalSpot", text)}
               style={{
                 width: "85%"
                 // ,fontSize:10
               }}
-              placeholder="Parking Lot State"
+              placeholder="Total Spot"
               require
             ></TextInput>
           </View>
+          {this.state.partotalSpotError && (
+            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          )}
+
           <View
             style={{
               flexDirection: "row",
