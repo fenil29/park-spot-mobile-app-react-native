@@ -12,24 +12,32 @@ import {
   AsyncStorage
 } from "react-native";
 
+import LoadingScreen from "../screens/LoadingScreen";
 import Login from "../screens/Login";
+import GlobalState from "../context/GlobalState";
 import ParkingSpotDetails from "../components/ParkingSpotDetails";
 import QRCode from "../components/QRCode";
 import FirstLogin from "../screens/FirstLogin";
-import Home from "../screens/admin-screens/Home";
+import ProviderHome from "../screens/provider-screens/Home";
+import UserHome from "../screens/user-screens/Home";
 import MyProfile from "../screens/MyProfile";
 import MyParkingLot from "../screens/MyParkingLot";
+import ViewAllEntry from "../screens/ViewAllEntry";
 import ParkingLotDetails from "../screens/ParkingLotDetails";
 import AddParkingLot from "../screens/AddParkingLot";
 import ShowParkingLotMap from "../screens/ShowParkingLotMap";
 import SelectLocationMaps from "../screens/SelectLocationMaps";
 import QRCodeGenerator from "../screens/QRCodeGenerator";
+import Logout from "../screens/Logout";
 
 import Colors from "../constants/colors";
 
-import { 
-  Feather,MaterialCommunityIcons,FontAwesome } from "@expo/vector-icons";
-
+import {
+  Feather,
+  MaterialCommunityIcons,
+  FontAwesome,
+  SimpleLineIcons
+} from "@expo/vector-icons";
 
 const CustomDrawerComponent = props => {
   return (
@@ -48,9 +56,7 @@ const CustomDrawerComponent = props => {
           // flex:1,
         }}
       >
-        <Text style={{ color: "#fff", fontSize: 18 }}>
-          Fenil Kaneria
-        </Text>
+        <Text style={{ color: "#fff", fontSize: 18 }}>Fenil Kaneria</Text>
       </View>
       <ScrollView>
         <DrawerItems {...props} />
@@ -59,23 +65,24 @@ const CustomDrawerComponent = props => {
   );
 };
 
-const SideNavigator = createDrawerNavigator(
+const SideNavigatorProvider = createDrawerNavigator(
   {
-    Home: {
-      screen: Home,
+    ProviderHome: {
+      screen: ProviderHome,
 
       navigationOptions: {
         drawerLabel: "Home",
         drawerIcon: () => (
-         
           <Feather
-          name="home"
-          size={25}
-          color="black"
-          style={{
-            // backgroundColor:"red"
-          }}
-        />
+            name="home"
+            size={25}
+            color="black"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
         )
       }
     },
@@ -84,32 +91,159 @@ const SideNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: "Account",
         drawerIcon: () => (
-         
           <MaterialCommunityIcons
-          name="account-outline"
-          size={27}
-          color="#000000"
-          style={{
-            // backgroundColor:"red"
-          }}
-        />
+            name="account-outline"
+            size={27}
+            color="#000000"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
         )
       }
     },
-    "MyParkingLot": {
-      screen: MyParkingLot,
+    ViewAllEntry: {
+      screen: ViewAllEntry,
       navigationOptions: {
         drawerLabel: "View All Entry",
         drawerIcon: () => (
-         
           <FontAwesome
-          name="list-alt"
-          size={20}
-          color="black"
-          style={{
-            // backgroundColor:"red"
-          }}
-        />
+            name="list-alt"
+            size={20}
+            color="black"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
+        )
+      }
+    },
+    Logout: {
+      screen: Logout,
+      navigationOptions: {
+        drawerLabel: "Logout",
+        drawerIcon: () => (
+          <SimpleLineIcons
+            name="logout"
+            size={20}
+            color="black"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
+        )
+      }
+    }
+  },
+  {
+    contentComponent: CustomDrawerComponent,
+    // drawerOpenRoute: 'DrawerOpen',
+    // drawerCloseRoute: 'DrawerClose',
+    // drawerToggleRoute: 'DrawerToggle',
+    contentOptions: {
+      // labelStyle: {
+      //   // fontFamily: 'SomeFont',
+      //   color: '#00f',
+
+      // },
+      // labelStyle : {
+      //   // fontFamily: 'SomeFont',
+      //   backgroundColor: '#f00',
+      //   // height:100,
+
+      // },
+      // itemsContainerStyle  : {
+      //   // fontFamily: 'SomeFont',
+      //   backgroundColor: '#0f0',
+      //   // height:100,
+
+      // },
+      // activeBackgroundColor: "#",
+      // activeTintColor: "#000"
+      activeBackgroundColor: "#fff",
+      activeTintColor: "#000"
+    }
+  }
+);
+
+const SideNavigatorUser = createDrawerNavigator(
+  {
+    UserHome: {
+      screen: UserHome,
+
+      navigationOptions: {
+        drawerLabel: "Home",
+        drawerIcon: () => (
+          <Feather
+            name="home"
+            size={25}
+            color="black"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
+        )
+      }
+    },
+    "My Profile": {
+      screen: MyProfile,
+      navigationOptions: {
+        drawerLabel: "Account",
+        drawerIcon: () => (
+          <MaterialCommunityIcons
+            name="account-outline"
+            size={27}
+            color="#000000"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
+        )
+      }
+    },
+    ViewAllEntry: {
+      screen: ViewAllEntry,
+      navigationOptions: {
+        drawerLabel: "View All Entry",
+        drawerIcon: () => (
+          <FontAwesome
+            name="list-alt"
+            size={20}
+            color="black"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
+        )
+      }
+    },
+    Logout: {
+      screen: Logout,
+      navigationOptions: {
+        drawerLabel: "Logout",
+        drawerIcon: () => (
+          <SimpleLineIcons
+            name="logout"
+            size={20}
+            color="black"
+            style={
+              {
+                // backgroundColor:"red"
+              }
+            }
+          />
         )
       }
     }
@@ -152,6 +286,12 @@ const MainNavigator = createStackNavigator({
   //     headerShown: false
   //   }
   // },
+  LoadingScreen: {
+    screen: LoadingScreen,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
   Login: {
     screen: Login,
     navigationOptions: {
@@ -164,8 +304,14 @@ const MainNavigator = createStackNavigator({
       headerShown: false
     }
   },
-  HomeScreen: {
-    screen: SideNavigator,
+  ProviderHomeScreen: {
+    screen: SideNavigatorProvider,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  UserHomeScreen: {
+    screen: SideNavigatorUser,
     navigationOptions: {
       headerShown: false
     }
@@ -208,6 +354,12 @@ const MainNavigator = createStackNavigator({
   },
   QRCodeGenerator: {
     screen: QRCodeGenerator,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  MyParkingLot: {
+    screen: MyParkingLot,
     navigationOptions: {
       headerShown: false
     }

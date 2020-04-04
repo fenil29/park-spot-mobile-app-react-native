@@ -45,8 +45,8 @@ export default class ShowParkingLotMap extends React.Component {
     permission: false
   };
   componentDidMount() {
-    fetch("http://192.168.0.102:3000/pd")
     // fetch("http://google.com")
+    fetch("http://192.168.0.200:3000/parking")
       .then(response => response.json())
       .then(responseJson => {
         // console.log(responseJson);

@@ -25,6 +25,9 @@ import { GlobalContext } from "../context/GlobalState";
 
 import axios from "axios";
 
+import URL from "../constants/apiUrl"
+
+
 export class SignIn extends Component {
   state = {
     IdChangeVariable: String,
@@ -45,22 +48,26 @@ export class SignIn extends Component {
   };
   componentDidMount() {}
   handleSignIn = context => {
+    let error = false;
     // this.props.Cprops.navigation.navigate("HomeScreen");
     // context.setLoginInfo({
     //   name: "fromloginScreen",
     //   loggedIn: true
     // });
-    this.setState({ loadingSpinner: true });
 
     // console.log("here");
     // console.log( typeof this.state.IdChangeVariable == "function", typeof this.state.onPassChangeVariable)
     // this.props.navigation.navigate('FirstLogin')
     // if()
+    this.setState({ loadingSpinner: true });
+    this.setState({ wrongIdPassError: false });
+
     if (
       typeof this.state.IdChangeVariable != "string" ||
       this.state.IdChangeVariable.length < 1
     ) {
-      this.setState({ userIdError: true });
+      this.setState({ userIdError: true, loadingSpinner: false });
+      error = true;
     } else {
       this.setState({ userIdError: false });
     }
@@ -68,20 +75,22 @@ export class SignIn extends Component {
       typeof this.state.onPassChangeVariable != "string" ||
       this.state.onPassChangeVariable.length < 1
     ) {
-      this.setState({ passwordError: true });
+      this.setState({ passwordError: true, loadingSpinner: false });
+      error = true;
     } else {
       this.setState({ passwordError: false });
     }
-
     if (
       this.state.IdChangeVariable.length > 50 ||
       this.state.onPassChangeVariable.length > 50
     ) {
       Alert.alert("Enter valid Id and Password");
       this.setState({ loadingSpinner: false });
+      error = true;
+    }
+    if (error) {
       return;
     }
-
     // this.setState({ loadingSpinner: false });
     // Alert.alert("Wrong Id or Password");
 
@@ -89,7 +98,7 @@ export class SignIn extends Component {
     // Alert.alert("Try Again");
 
     axios
-      .post("http://192.168.0.200:3000/users/login", {
+      .post( URL + "/users/login", {
         id: this.state.IdChangeVariable,
         pass: this.state.onPassChangeVariable
       })
@@ -97,11 +106,12 @@ export class SignIn extends Component {
         console.log(response);
         if (response.data.access_right == "user") {
           context.setLoginInfo(response.data);
-          this.props.Cprops.navigation.navigate("HomeScreen");
+          this.storeStateInLocalStorage(response.data);
+          this.props.Cprops.navigation.replace("UserHomeScreen");
         } else if (response.data.access_right == "provider") {
           context.setLoginInfo(response.data);
-          this.props.Cprops.navigation.navigate("HomeScreen");
-          
+          this.storeStateInLocalStorage(response.data);
+          this.props.Cprops.navigation.replace("ProviderHomeScreen");
         } else {
           this.setState({ loadingSpinner: false });
           this.setState({ wrongIdPassError: true });
@@ -112,6 +122,14 @@ export class SignIn extends Component {
         this.setState({ loadingSpinner: false });
         this.setState({ wrongIdPassError: true });
       });
+  };
+  storeStateInLocalStorage = async state => {
+    try {
+      await AsyncStorage.setItem("token", JSON.stringify(state));
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
   };
   render() {
     return (
@@ -158,6 +176,7 @@ export class SignIn extends Component {
                 onChangeText={pass => this.onPassChange(pass)}
                 style={{ width: "85%" }}
                 placeholder="Password"
+                secureTextEntry={true}
                 required
               ></TextInput>
             </View>

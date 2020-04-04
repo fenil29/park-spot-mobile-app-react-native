@@ -96,7 +96,7 @@ export class SignUp extends Component {
               placeholder="First Name"
             ></TextInput>
           </View>
-        
+
           <View
             // style={...style.style.input,{width:"50%"}}
             style={[
@@ -118,9 +118,9 @@ export class SignUp extends Component {
             ></TextInput>
           </View>
         </View>
-          {(this.state.lastNameError ||  this.state.firstNameError )&& (
-            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
-          )}
+        {(this.state.lastNameError || this.state.firstNameError) && (
+          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+        )}
         <View
           style={[
             style.style.input,
@@ -144,7 +144,9 @@ export class SignUp extends Component {
         <View
           style={[
             style.style.input,
-            this.state.passwordError ? { borderColor: "red", borderWidth: 1 } : {}
+            this.state.passwordError
+              ? { borderColor: "red", borderWidth: 1 }
+              : {}
           ]}
         >
           <TextInput
@@ -152,6 +154,7 @@ export class SignUp extends Component {
             onChangeText={pass => this.onPassChange(pass)}
             style={{ width: "85%" }}
             placeholder="Password"
+            secureTextEntry={true}
             required
           ></TextInput>
         </View>

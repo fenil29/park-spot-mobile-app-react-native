@@ -5,11 +5,12 @@ import {
   Layout,
   Text
 } from "@ui-kitten/components";
+import { View } from "react-native";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { mapping, light as lightTheme } from "@eva-design/eva";
 
 import MainNavigator from "./navigation/MainNavigator";
-import {GlobalState}  from "./context/GlobalState";
+import GlobalState from "./context/GlobalState";
 
 import Colors from "./constants/colors";
 
@@ -24,7 +25,9 @@ const App = () => (
   <GlobalState>
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider mapping={mapping} theme={lightTheme}>
-      <MainNavigator />
+      <Layout style={{ flex: 1, marginTop: 20 }}>
+        <MainNavigator />
+      </Layout>
     </ApplicationProvider>
   </GlobalState>
 );

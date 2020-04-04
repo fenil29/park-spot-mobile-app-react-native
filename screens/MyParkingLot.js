@@ -26,6 +26,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
+import URL from "../constants/apiUrl";
 
 import axios from "axios";
 export class MyParkingLot extends Component {
@@ -42,7 +43,7 @@ export class MyParkingLot extends Component {
   );
   componentDidMount = () => {
     axios
-      .get("http://192.168.0.200:3000/parking")
+      .get(URL +"/parking")
       .then(response => {
         console.log(response.data);
         this.setState({ data: response.data });

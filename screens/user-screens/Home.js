@@ -42,7 +42,7 @@ export class Home extends Component {
     return (
       <Layout style={styles.container}>
         <TopNavigation
-          title="Find My Spot"
+          title="Find My Spot User"
           alignment="center"
           leftControl={this.BackAction()}
         />
