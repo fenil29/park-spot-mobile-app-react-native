@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-import {
-  Button,
-  Text
-} from "@ui-kitten/components";
+import { Button, Text } from "@ui-kitten/components";
 
 export default function App(props) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -18,10 +15,26 @@ export default function App(props) {
     })();
   }, []);
 
+  let isJson = (str) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
+
   const handleBarCodeScanned = ({ type, data }) => {
     // setScanned(true);
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    props.navigation.navigate("ParkingSpotDetails");
+    if (isJson(data)) {
+      data = JSON.parse(data);
+      console.log(data);
+      if (data.type == "find-my-spot-qr-code") {
+        if (data.access == "entry")
+          props.navigation.navigate("ParkingSpotDetails", { data: data });
+      }
+    }
   };
 
   if (hasPermission === null) {
@@ -36,7 +49,7 @@ export default function App(props) {
       style={{
         flex: 1,
         flexDirection: "column",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
       }}
     >
       {/* <Text>QR Code Scanner</Text> */}
@@ -86,7 +99,7 @@ export default function App(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
     // paddingTop: Platform.OS === "android" ? 24 : 0
-  }
+  },
 });

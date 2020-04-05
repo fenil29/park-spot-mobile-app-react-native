@@ -37,6 +37,8 @@ export class QRCodeGenerator extends Component {
   );
   render() {
     const fill = "rgb(134, 65, 244)";
+    let parkingLotDataEntry={id:this.props.navigation.state.params.data.pd_lot_id,type:"find-my-spot-qr-code",access:"entry"}
+    let parkingLotDataExit={id:this.props.navigation.state.params.data.pd_lot_id,type:"find-my-spot-qr-code",access:"exit"}
     return (
       <Layout style={styles.container}>
         <TopNavigation
@@ -44,8 +46,12 @@ export class QRCodeGenerator extends Component {
           alignment="center"
           leftControl={this.BackAction()}
         />
-        <Text>{JSON.stringify(this.props.navigation.state)}</Text>
-        <QRCode value={JSON.stringify(this.props.navigation.state)} />
+        <Text>{JSON.stringify(parkingLotDataEntry)}</Text>
+        <View style={{alignItems:"center"}}>
+
+        <QRCode value={JSON.stringify(parkingLotDataEntry)} size={200}/>
+        <QRCode value={JSON.stringify(parkingLotDataExit)} size={200}/>
+        </View>
       </Layout>
     );
   }

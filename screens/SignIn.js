@@ -29,6 +29,8 @@ import URL from "../constants/apiUrl"
 
 
 export class SignIn extends Component {
+  static contextType = GlobalContext;
+
   state = {
     IdChangeVariable: String,
     onPassChangeVariable: String,
@@ -47,7 +49,7 @@ export class SignIn extends Component {
     console.log(this.state.onPassChangeVariable);
   };
   componentDidMount() {}
-  handleSignIn = context => {
+  handleSignIn = () => {
     let error = false;
     // this.props.Cprops.navigation.navigate("HomeScreen");
     // context.setLoginInfo({
@@ -105,11 +107,11 @@ export class SignIn extends Component {
       .then(response => {
         console.log(response);
         if (response.data.access_right == "user") {
-          context.setLoginInfo(response.data);
+          this.context.setLoginInfo(response.data);
           this.storeStateInLocalStorage(response.data);
           this.props.Cprops.navigation.replace("UserHomeScreen");
         } else if (response.data.access_right == "provider") {
-          context.setLoginInfo(response.data);
+          this.context.setLoginInfo(response.data);
           this.storeStateInLocalStorage(response.data);
           this.props.Cprops.navigation.replace("ProviderHomeScreen");
         } else {
@@ -133,8 +135,6 @@ export class SignIn extends Component {
   };
   render() {
     return (
-      <GlobalContext.Consumer>
-        {context => (
           <View
             style={{
               alignItems: "center",
@@ -210,7 +210,7 @@ export class SignIn extends Component {
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => {
-                  this.handleSignIn(context);
+                  this.handleSignIn();
                   // context.setLoginInfo({
                   //   name: "fromloginScreen",
                   //   loggedIn: true
@@ -234,8 +234,7 @@ export class SignIn extends Component {
               />
             )}
           </View>
-        )}
-      </GlobalContext.Consumer>
+     
     );
   }
 }

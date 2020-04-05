@@ -5,14 +5,18 @@ import { Spinner } from "@ui-kitten/components";
 import { GlobalContext } from "../context/GlobalState";
 
 export class LoadingScreen extends Component {
-  checkLogin = async context => {
+  static contextType = GlobalContext;
+  componentWillMount = () => {
+    this.checkLogin();
+  };
+  checkLogin = async () => {
     // this.props.navigation.navigate("Login");
     try {
       let value = await AsyncStorage.getItem("token");
       if (value !== null) {
         value = JSON.parse(value);
         console.log(value);
-        context.setLoginInfo(value);
+        this.context.setLoginInfo(value);
         if (value.access_right == "user") {
           this.props.navigation.replace("UserHomeScreen");
         } else if (value.access_right == "provider") {
@@ -31,22 +35,15 @@ export class LoadingScreen extends Component {
   };
   render() {
     return (
-      <GlobalContext.Consumer>
-        {context => {
-          this.checkLogin(context);
-          return (
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                flex: 1
-              }}
-            >
-              <Spinner color="blue" />
-            </View>
-          );
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
         }}
-      </GlobalContext.Consumer>
+      >
+        <Spinner color="blue" />
+      </View>
     );
   }
 }

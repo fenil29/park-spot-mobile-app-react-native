@@ -15,8 +15,8 @@ import {
 import LoadingScreen from "../screens/LoadingScreen";
 import Login from "../screens/Login";
 import GlobalState from "../context/GlobalState";
-import ParkingSpotDetails from "../components/ParkingSpotDetails";
-import QRCode from "../components/QRCode";
+import ParkingSpotDetails from "../screens/ParkingSpotDetails";
+import QRCode from "../components/ScanQRCode";
 import FirstLogin from "../screens/FirstLogin";
 import ProviderHome from "../screens/provider-screens/Home";
 import UserHome from "../screens/user-screens/Home";
