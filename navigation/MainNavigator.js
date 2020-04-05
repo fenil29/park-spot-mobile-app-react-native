@@ -16,6 +16,7 @@ import LoadingScreen from "../screens/LoadingScreen";
 import Login from "../screens/Login";
 import GlobalState from "../context/GlobalState";
 import ParkingSpotDetails from "../screens/ParkingSpotDetails";
+import ParkingLotExit from "../screens/ParkingLotExit";
 import QRCode from "../components/ScanQRCode";
 import FirstLogin from "../screens/FirstLogin";
 import ProviderHome from "../screens/provider-screens/Home";
@@ -324,6 +325,12 @@ const MainNavigator = createStackNavigator({
   },
   ParkingSpotDetails: {
     screen: ParkingSpotDetails,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  ParkingLotExit: {
+    screen: ParkingLotExit,
     navigationOptions: {
       headerShown: false
     }

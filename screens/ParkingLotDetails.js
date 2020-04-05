@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableNativeFeedback,
-  StatusBar
+  StatusBar,
 } from "react-native";
 
 import {
@@ -18,17 +18,19 @@ import {
   Icon,
   Layout,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from "@ui-kitten/components";
 
 import { BarChart, Grid, YAxis, XAxis } from "react-native-svg-charts";
 import * as shape from "d3-shape";
 
-// import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
 
 export class ParkingLotDetails extends Component {
-  BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
+  state = {
+    data: this.props.navigation.state.params.data,
+  };
+  BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
 
   BackAction = () => (
     <TopNavigationAction
@@ -37,6 +39,7 @@ export class ParkingLotDetails extends Component {
     />
   );
   render() {
+    let lotInfo = this.state.data;
     const fill = "rgb(134, 65, 244)";
     return (
       <Layout style={styles.container}>
@@ -45,37 +48,51 @@ export class ParkingLotDetails extends Component {
           alignment="center"
           leftControl={this.BackAction()}
         />
-
-        {/* <Header
-          style={{ backgroundColor: "white" }}
-          iosStatusbar="dark-content"
-          androidStatusBarColor="white"
+        <View
+          style={{
+            marginHorizontal: 10,
+            marginTop: 20,
+            borderWidth: 0.1,
+            borderColor: "black",
+            padding: 20,
+            borderRadius: 5,
+            backgroundColor: "#fff",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.27,
+            shadowRadius: 4.65,
+            elevation: 6,
+          }}
         >
-          <StatusBar barStyle="dark-content" />
-          <Left>
-            <Button
-              transparent
-              onPressIn={() => this.props.navigation.goBack()}
-            >
-              <Icon name="arrow-back" style={{ color: "black" }} />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={{ color: "black" }}>Account</Title>
-          </Body>
-          <Right />
-        </Header> */}
-        <Text>{JSON.stringify(this.props.navigation.state)}</Text>
+          <Text
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: "#d9d9d9",
+              paddingBottom: 10,
+            }}
+          >
+            Parking Lot Details
+          </Text>
+          <Text style={{ paddingTop: 10 }}>Name : {lotInfo.pd_loc_name}</Text>
+          <Text>Address : {lotInfo.pd_loc_address}</Text>
+          <Text>Total Spot : {lotInfo.total_spot}</Text>
+          <Text>Occupied Spot : {lotInfo.occupied_spot}</Text>
+          <Text>Hourly Rate : {lotInfo.pd_hrly_rate}</Text>
+        </View>
+        {/* <Text>{JSON.stringify(lotInfo)}</Text> */}
         <View style={{ height: 200, flexDirection: "row" }}>
           <YAxis
             data={[6, 5, 7, 4, 1, 9, 5, 3]}
             svg={{
               fill: "grey",
-              fontSize: 10
+              fontSize: 10,
             }}
             contentInset={{ top: 20, bottom: 20 }}
             numberOfTicks={10}
-            formatLabel={value => `${value}`}
+            formatLabel={(value) => `${value}`}
           />
           <BarChart
             style={{ flex: 1, marginLeft: 16 }}
@@ -102,7 +119,7 @@ export default ParkingLotDetails;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
     // paddingTop: Platform.OS === "android" ? 24 : 0
-  }
+  },
 });

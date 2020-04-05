@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   StatusBar,
-  FlatList
+  FlatList,
 } from "react-native";
 
 import {
@@ -20,6 +20,7 @@ import {
   Layout,
   TopNavigation,
   TopNavigationAction,
+  Spinner,
 } from "@ui-kitten/components";
 
 import { AreaChart, Grid } from "react-native-svg-charts";
@@ -35,6 +36,7 @@ export class ViewAllEntry extends Component {
   static contextType = GlobalContext;
   state = {
     data: [],
+    loading: true,
   };
 
   BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
@@ -52,6 +54,7 @@ export class ViewAllEntry extends Component {
       .then((response) => {
         console.log(response.data.slice(0, 20));
         this.setState({ data: response.data.slice(0, 20) });
+        this.setState({ loading: false });
       })
       .catch((error) => {
         console.log(error);
@@ -59,56 +62,60 @@ export class ViewAllEntry extends Component {
   };
   render() {
     return (
-      <GlobalContext.Consumer>
-        {(context) => {
-          return (
-            <Layout style={styles.container}>
-              <TopNavigation
-                title="View All Entry"
-                alignment="center"
-                leftControl={this.BackAction()}
-              />
-              <FlatList
-              keyExtractor={(item, index) => index.toString()}
-                data={this.state.data}
-                renderItem={({ item }) => 
-              {  let inTime=new Date(item.in_time).toLocaleString()
-                let outTime=new Date(item.out_time).toLocaleString()
-                
-                return (
-            
-                    <View style={{ marginHorizontal: 20 }}>
-                      <View
-                        style={{
-                          borderBottomWidth: 1,
-                          paddingBottom:10
-                        }}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            marginVertical: 10,
-                          }}
-                        >
-                          <Text>Parking Lot name</Text>
-                         <View><Text>payment</Text></View>
-                        </View>
-                        <View>
-                        <Text>Entry Date : {inTime}</Text>
-                        <Text>Exit Date{"   "} : {outTime}</Text>
-                        </View>
+      <Layout style={styles.container}>
+        <TopNavigation
+          title="View All Entry"
+          alignment="center"
+          leftControl={this.BackAction()}
+        />
+        {!this.state.loading ? (
+          <FlatList
+            keyExtractor={(item, index) => index.toString()}
+            data={this.state.data}
+            renderItem={({ item }) => {
+              let inTime = new Date(item.in_time).toLocaleString();
+              let outTime = new Date(item.out_time).toLocaleString();
+
+              return (
+                <View style={{ marginHorizontal: 20 }}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      paddingBottom: 10,
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginVertical: 10,
+                      }}
+                    >
+                      <Text>Parking Lot name</Text>
+                      <View>
+                        <Text>payment</Text>
                       </View>
                     </View>
-                )}
-              }
-              
-              />
-            </Layout>
-          );
-        }}
-      </GlobalContext.Consumer>
+                    <View>
+                      <Text>Entry Time : {inTime}</Text>
+                      <Text>
+                        Exit Time{"   "} : {outTime}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        ) : (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Spinner color="blue" />
+          </View>
+        )}
+      </Layout>
     );
   }
 }

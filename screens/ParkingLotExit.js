@@ -28,7 +28,7 @@ import { GlobalContext } from "../context/GlobalState";
 
 import URL from "../constants/apiUrl";
 
-export class ParkingSpotDetails extends Component {
+export class ParkingLotExit extends Component {
   static contextType = GlobalContext;
 
   state = {
@@ -50,7 +50,7 @@ export class ParkingSpotDetails extends Component {
     let spotId = this.props.navigation.state.params.data.id;
     console.log(URL + "/spot/get/" + spotId);
     axios
-      .post(URL + "/spot/get/" + spotId, {
+      .post(URL + "/spot/left/" + spotId, {
         user: this.context.state.loginData.user_user_id,
       })
       .then((response) => {
@@ -61,8 +61,8 @@ export class ParkingSpotDetails extends Component {
       .catch((error) => {
         console.log(error.response.data);
         if (error.response.status == 400) {
-          this.setState({ loading: false,isParkingFull:true });          
-          this.setState({data:error.response.data})
+          this.setState({ loading: false, isParkingFull: true });
+          this.setState({ data: error.response.data });
         }
       });
   };
@@ -71,7 +71,7 @@ export class ParkingSpotDetails extends Component {
     return (
       <Layout style={styles.container}>
         <TopNavigation
-          title="Parking Spot Details"
+          title="ParkingLotExit"
           alignment="center"
           leftControl={this.BackAction()}
         />
@@ -100,7 +100,9 @@ export class ParkingSpotDetails extends Component {
               {!this.state.isParkingFull ? (
                 <React.Fragment>
                   <Text>Your Parking Spot Is:</Text>
-              <Text style={{ textAlign: "center", fontSize: 150 }}>{this.state.data.spot_no}</Text>
+                  <Text style={{ textAlign: "center", fontSize: 150 }}>
+                    {this.state.data.spot_no}
+                  </Text>
                 </React.Fragment>
               ) : (
                 <Text>Sorry Parking is full</Text>
@@ -126,8 +128,18 @@ export class ParkingSpotDetails extends Component {
                 elevation: 6,
               }}
             >
-              <Text style={{borderBottomWidth:1,borderBottomColor:"#d9d9d9",paddingBottom:10}}>Parking Lot Details</Text>
-              <Text style={{paddingTop:10}}>Name : {this.state.data.pd_loc_name}</Text>
+              <Text
+                style={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#d9d9d9",
+                  paddingBottom: 10,
+                }}
+              >
+                Parking Lot Details
+              </Text>
+              <Text style={{ paddingTop: 10 }}>
+                Name : {this.state.data.pd_loc_name}
+              </Text>
               <Text>Address : {this.state.data.pd_loc_address}</Text>
               <Text>Total Spot : {this.state.data.total_spot}</Text>
               <Text>Occupied Spot : {this.state.data.occupied_spot}</Text>
@@ -147,7 +159,7 @@ export class ParkingSpotDetails extends Component {
   }
 }
 
-export default ParkingSpotDetails;
+export default ParkingLotExit;
 
 const styles = StyleSheet.create({
   container: {

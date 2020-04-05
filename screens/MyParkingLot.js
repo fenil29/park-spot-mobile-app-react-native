@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   StatusBar,
-  FlatList
+  FlatList,
 } from "react-native";
 
 import {
@@ -19,7 +19,8 @@ import {
   Icon,
   Layout,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
+  Spinner,
 } from "@ui-kitten/components";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -31,9 +32,10 @@ import URL from "../constants/apiUrl";
 import axios from "axios";
 export class MyParkingLot extends Component {
   state = {
-    data: []
+    data: [],
+    loading: true,
   };
-  BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
+  BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
 
   BackAction = () => (
     <TopNavigationAction
@@ -43,12 +45,13 @@ export class MyParkingLot extends Component {
   );
   componentDidMount = () => {
     axios
-      .get(URL +"/parking")
-      .then(response => {
+      .get(URL + "/parking")
+      .then((response) => {
         console.log(response.data);
         this.setState({ data: response.data });
+        this.setState({ loading: false });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -61,74 +64,62 @@ export class MyParkingLot extends Component {
           alignment="center"
           leftControl={this.BackAction()}
         />
-
-        {/* <Header
-          style={{ backgroundColor: "white" }}
-          iosStatusbar="dark-content"
-          androidStatusBarColor="white"
-        >
-          <StatusBar barStyle="dark-content" />
-          <Left>
-            <Button
-              transparent
-              onPressIn={() => this.props.navigation.goBack()}
-            >
-              <Icon name="arrow-back" style={{ color: "black" }} />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={{ color: "black" }}>Account</Title>
-          </Body>
-          <Right />
-        </Header> */}
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <TouchableNativeFeedback
-              // key={item.pd_lot_id}
-              onPress={() =>
-                this.props.navigation.navigate("ParkingLotDetails", {
-                  data: item
-                })
-              }
-            >
-              <View style={{ marginHorizontal: 20 }}>
-                <View
-                  style={{
-                    borderBottomWidth: 1
-                  }}
-                >
+        {!this.state.loading ? (
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <TouchableNativeFeedback
+                // key={item.pd_lot_id}
+                onPress={() =>
+                  this.props.navigation.navigate("ParkingLotDetails", {
+                    data: item,
+                  })
+                }
+              >
+                <View style={{ marginHorizontal: 20 }}>
                   <View
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginVertical: 20
+                      borderBottomWidth: 1,
                     }}
                   >
-                    <Text>{item.pd_loc_name}</Text>
-                    <TouchableNativeFeedback
-                      onPress={() =>
-                        this.props.navigation.navigate("QRCodeGenerator", {
-                          data: item
-                        })
-                      }
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginVertical: 20,
+                      }}
                     >
-                      <MaterialCommunityIcons
-                        name="qrcode"
-                        size={30}
-                        color="black"
-                        // color={Colors.primary}
-                        color="black"
-                      />
-                    </TouchableNativeFeedback>
+                      <Text>{item.pd_loc_name}</Text>
+                      <TouchableNativeFeedback
+                        onPress={() =>
+                          this.props.navigation.navigate("QRCodeGenerator", {
+                            data: item,
+                          })
+                        }
+                      >
+                        <MaterialCommunityIcons
+                          name="qrcode"
+                          size={30}
+                          color="black"
+                          // color={Colors.primary}
+                          color="black"
+                        />
+                      </TouchableNativeFeedback>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </TouchableNativeFeedback>
-          )}
-          keyExtractor={(item) => item.pd_lot_id}
-        />
+              </TouchableNativeFeedback>
+            )}
+            keyExtractor={(item) => item.pd_lot_id}
+          />
+        ) : (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Spinner color="blue" />
+          </View>
+        )}
       </Layout>
     );
   }
@@ -138,7 +129,7 @@ export default MyParkingLot;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
     // paddingTop: Platform.OS === "android" ? 24 : 0
-  }
+  },
 });
