@@ -61,7 +61,7 @@ export default function App(props) {
   let BackAction = () => (
     <TopNavigationAction
       icon={BackIcon}
-      onPressIn={() => this.props.navigation.goBack()}
+      onPressIn={() => props.navigation.goBack()}
     />
   );
 

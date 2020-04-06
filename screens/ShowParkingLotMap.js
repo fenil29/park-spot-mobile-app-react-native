@@ -20,6 +20,8 @@ import {
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
 import style from "../constants/style";
+import URL from "../constants/apiUrl";
+
 
 import SelectLocationMaps from "./SelectLocationMaps";
 import Constants from "expo-constants";
@@ -46,7 +48,7 @@ export default class ShowParkingLotMap extends React.Component {
   };
   componentDidMount() {
     // fetch("http://google.com")
-    fetch("http://192.168.0.200:3000/parking")
+    fetch(URL + "/parking")
       .then(response => response.json())
       .then(responseJson => {
         // console.log(responseJson);

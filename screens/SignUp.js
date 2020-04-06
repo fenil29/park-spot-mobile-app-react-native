@@ -15,7 +15,7 @@ import {
   BackHandler,
   ActivityIndicator,
   AsyncStorage,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 
 import Colors from "../constants/colors";
@@ -25,46 +25,113 @@ import { CheckBox } from "@ui-kitten/components";
 
 export class SignUp extends Component {
   state = {
-    IdChangeVariable: String,
-    onPassChangeVariable: String,
+    emailIdChangeVariable: "",
+    passChangeVariable: "",
     loadingSpinner: false,
     firstName: "",
     lastName: "",
-    Checked: false,
+    accessBool: false,
     firstNameError: false,
     lastNameError: false,
-    userIdError: false,
-    passwordError: false
+    emailIdError: false,
+    passwordError: false,
   };
   // firstTimeForLoginDataRetrieval=true;
 
-  // IdChangeVariable = "";
-  // onPassChangeVariable = "";
-  onIdChange = text => {
-    this.setState({ IdChangeVariable: text });
-    console.log(this.state.IdChangeVariable);
+  // emailIdChangeVariable = "";
+  // passChangeVariable = "";
+  onIdChange = (text) => {
+    this.setState({ emailIdChangeVariable: text });
+    console.log(this.state.emailIdChangeVariable);
   };
-  onPassChange = pass => {
-    this.setState({ onPassChangeVariable: pass });
-    console.log(this.state.onPassChangeVariable);
+  onPassChange = (pass) => {
+    this.setState({ passChangeVariable: pass });
+    console.log(this.state.passChangeVariable);
   };
-  firstNameChange = text => {
+  firstNameChange = (text) => {
     this.setState({ firstName: text });
     console.log(this.state.firstName);
   };
-  lastNameChange = text => {
+  lastNameChange = (text) => {
     this.setState({ lastName: text });
     console.log(this.state.lastName);
   };
-  onCheckedChange = bool => {
+  onaccessBoolChange = (bool) => {
     // console.log(bool)
-    this.setState(prevState => ({
-      Checked: !prevState.Checked
+    this.setState((prevState) => ({
+      accessBool: !prevState.accessBool,
     }));
   };
 
   handleSignUp = () => {
-    this.props.Cprops.navigation.navigate("HomeScreen");
+    let error=false
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!this.state.firstName.length) {
+      this.setState({ firstNameError: true });
+      error=true
+    } else {
+      this.setState({ firstNameError: false });
+    }
+
+    if (!this.state.lastName.length) {
+      this.setState({ lastNameError: true });
+      error=true
+    } else {
+      this.setState({ lastNameError: false });
+    }
+
+    if (!this.state.emailIdChangeVariable.length) {
+      this.setState({ emailIdError: "Required" });
+      error=true
+    } else if (reg.test(this.state.emailIdChangeVariable) == false) {
+      this.setState({ emailIdError: "Enter valid Email" });
+      error=true
+    } else {
+      this.setState({ emailIdError: false });
+    }
+
+    if (!this.state.passChangeVariable.length) {
+      this.setState({ passwordError: "Required" });
+      error=true
+    } else if (this.state.passChangeVariable.length < 5) {
+      this.setState({ passwordError: "Minimum 5 character required" });
+      error=true
+    } else {
+      this.setState({ passwordError: false });
+    }
+    if (error) {
+      return;
+    }
+    this.setState({ loadingSpinner: true });
+    axios
+      .post( URL + "/users", {
+        email: this.state.emailIdChangeVariable,
+        pass: this.state.passChangeVariable,
+        fname: this.state.firstName,
+        lname: this.state.lastName,
+        access_right: this.state.accessBool ? "provider" : "user",
+      })
+      .then(response => {
+        console.log(response);
+        if (response.data.access_right == "user") {
+          this.context.setLoginInfo(response.data);
+          this.storeStateInLocalStorage(response.data);
+          this.props.Cprops.navigation.replace("UserHomeScreen");
+        } else if (response.data.access_right == "provider") {
+          this.context.setLoginInfo(response.data);
+          this.storeStateInLocalStorage(response.data);
+          this.props.Cprops.navigation.replace("ProviderHomeScreen");
+        } else {
+          this.setState({ loadingSpinner: false });
+          this.setState({ wrongIdPassError: true });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ loadingSpinner: false });
+        this.setState({ wrongIdPassError: true });
+      });
+
   };
   render() {
     return (
@@ -74,7 +141,7 @@ export class SignUp extends Component {
             flexDirection: "row",
             //   backgroundColor: "#666",
             justifyContent: "space-between",
-            width: "80%"
+            width: "80%",
           }}
         >
           <View
@@ -83,14 +150,14 @@ export class SignUp extends Component {
               { width: "48%" },
               this.state.firstNameError
                 ? { borderColor: "red", borderWidth: 1 }
-                : {}
+                : {},
             ]}
           >
             <TextInput
               maxLength={50}
-              onChangeText={text => this.firstNameChange(text)}
+              onChangeText={(text) => this.firstNameChange(text)}
               style={{
-                width: "80%"
+                width: "80%",
                 //  backgroundColor: "#222"
               }}
               placeholder="First Name"
@@ -104,14 +171,14 @@ export class SignUp extends Component {
               { width: "48%" },
               this.state.lastNameError
                 ? { borderColor: "red", borderWidth: 1 }
-                : {}
+                : {},
             ]}
           >
             <TextInput
               maxLength={50}
-              onChangeText={text => this.lastNameChange(text)}
+              onChangeText={(text) => this.lastNameChange(text)}
               style={{
-                width: "80%"
+                width: "80%",
                 //  backgroundColor: "#222"
               }}
               placeholder="Last Name"
@@ -124,34 +191,38 @@ export class SignUp extends Component {
         <View
           style={[
             style.style.input,
-            this.state.userIdError ? { borderColor: "red", borderWidth: 1 } : {}
+            this.state.emailIdError
+              ? { borderColor: "red", borderWidth: 1 }
+              : {},
           ]}
         >
           <TextInput
             maxLength={50}
-            onChangeText={text => this.onIdChange(text)}
+            onChangeText={(text) => this.onIdChange(text)}
             style={{
-              width: "85%"
+              width: "85%",
               // ,fontSize:10
             }}
-            placeholder="User Id"
+            placeholder="Email Id"
             require
           ></TextInput>
         </View>
-        {this.state.userIdError && (
-          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+        {this.state.emailIdError && (
+          <Text style={{ color: "red", fontSize: 13 }}>
+            {this.state.emailIdError}
+          </Text>
         )}
         <View
           style={[
             style.style.input,
             this.state.passwordError
               ? { borderColor: "red", borderWidth: 1 }
-              : {}
+              : {},
           ]}
         >
           <TextInput
             maxLength={50}
-            onChangeText={pass => this.onPassChange(pass)}
+            onChangeText={(pass) => this.onPassChange(pass)}
             style={{ width: "85%" }}
             placeholder="Password"
             secureTextEntry={true}
@@ -159,13 +230,15 @@ export class SignUp extends Component {
           ></TextInput>
         </View>
         {this.state.passwordError && (
-          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          <Text style={{ color: "red", fontSize: 13 }}>
+            {this.state.passwordError}
+          </Text>
         )}
         <View style={{ marginTop: 20 }}>
           <CheckBox
             text={`Create account as Parking Provider`}
-            checked={this.state.Checked}
-            onPressIn={this.onCheckedChange}
+            checked={this.state.accessBool}
+            onPressIn={this.onaccessBoolChange}
           />
         </View>
 
@@ -174,13 +247,13 @@ export class SignUp extends Component {
         {!this.state.loadingSpinner ? (
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {
+            onPressIn={() => {
               this.handleSignUp();
             }}
             style={{
               alignItems: "center",
               width: "100%",
-              marginVertical: 20
+              marginVertical: 20,
             }}
           >
             <View style={style.style.button}>
