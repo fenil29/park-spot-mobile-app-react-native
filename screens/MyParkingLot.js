@@ -27,10 +27,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
-import URL from "../constants/apiUrl";
+import serverUrl from "../constants/apiUrl";
+
+import { GlobalContext } from "../context/GlobalState";
+
 
 import axios from "axios";
 export class MyParkingLot extends Component {
+  static contextType = GlobalContext;
+
   state = {
     data: [],
     loading: true,
@@ -44,8 +49,10 @@ export class MyParkingLot extends Component {
     />
   );
   componentDidMount = () => {
+    // console.log()
+    let userId=this.context.state.loginData.user_user_id
     axios
-      .get(URL + "/parking")
+      .get(serverUrl + "/parking/" + userId)
       .then((response) => {
         console.log(response.data);
         this.setState({ data: response.data });

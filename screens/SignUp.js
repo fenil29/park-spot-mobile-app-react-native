@@ -104,7 +104,7 @@ export class SignUp extends Component {
     }
     this.setState({ loadingSpinner: true });
     axios
-      .post( URL + "/users", {
+      .post( serverUrl + "/users", {
         email: this.state.emailIdChangeVariable,
         pass: this.state.passChangeVariable,
         fname: this.state.firstName,

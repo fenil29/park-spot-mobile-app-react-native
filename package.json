@@ -30,7 +30,8 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.0.10",
     "react-navigation-drawer": "^2.3.3",
-    "react-navigation-stack": "^2.0.15"
+    "react-navigation-stack": "^2.0.15",
+    "@react-native-community/datetimepicker": "2.1.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.0.0",

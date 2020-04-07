@@ -62,7 +62,7 @@ export class QRCodeGenerator extends Component {
           <View
             style={{
               marginHorizontal: 10,
-              marginTop: 20,
+              marginTop: 10,
               borderWidth: 0.1,
               borderColor: "black",
               padding: 20,
@@ -145,6 +145,7 @@ export class QRCodeGenerator extends Component {
               shadowRadius: 4.65,
               elevation: 6,
               alignItems: "center",
+              marginBottom:10
             }}
           >
             <Text

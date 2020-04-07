@@ -26,7 +26,7 @@ import Colors from "../constants/colors";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalState";
 
-import URL from "../constants/apiUrl";
+import serverUrl from "../constants/apiUrl";
 
 export class ParkingSpotDetails extends Component {
   static contextType = GlobalContext;
@@ -34,7 +34,7 @@ export class ParkingSpotDetails extends Component {
   state = {
     data: {},
     loading: true,
-    isParkingFull: false,
+    error: false,
   };
   BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
 
@@ -48,9 +48,9 @@ export class ParkingSpotDetails extends Component {
   componentDidMount = () => {
     console.log(this.props.navigation.state.params.data);
     let spotId = this.props.navigation.state.params.data.id;
-    console.log(URL + "/spot/get/" + spotId);
+    console.log(serverUrl + "/spot/get/" + spotId);
     axios
-      .post(URL + "/spot/get/" + spotId, {
+      .post(serverUrl + "/spot/get/" + spotId, {
         user: this.context.state.loginData.user_user_id,
       })
       .then((response) => {
@@ -61,7 +61,7 @@ export class ParkingSpotDetails extends Component {
       .catch((error) => {
         console.log(error.response.data);
         if (error.response.status == 400) {
-          this.setState({ loading: false,isParkingFull:true });          
+          this.setState({ loading: false,error:error.response.data.error_message });          
           this.setState({data:error.response.data})
         }
       });
@@ -97,13 +97,13 @@ export class ParkingSpotDetails extends Component {
                 elevation: 6,
               }}
             >
-              {!this.state.isParkingFull ? (
+              {!this.state.error ? (
                 <React.Fragment>
                   <Text>Your Parking Spot Is:</Text>
               <Text style={{ textAlign: "center", fontSize: 150 }}>{this.state.data.spot_no}</Text>
                 </React.Fragment>
               ) : (
-                <Text>Sorry Parking is full</Text>
+              <Text>{this.state.error}</Text>
               )}
             </View>
             <View

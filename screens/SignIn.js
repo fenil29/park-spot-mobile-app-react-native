@@ -25,7 +25,7 @@ import { GlobalContext } from "../context/GlobalState";
 
 import axios from "axios";
 
-import URL from "../constants/apiUrl"
+import serverUrl from "../constants/apiUrl"
 
 
 export class SignIn extends Component {
@@ -100,7 +100,7 @@ export class SignIn extends Component {
     // Alert.alert("Try Again");
 
     axios
-      .post( URL + "/users/login", {
+      .post( serverUrl + "/users/login", {
         id: this.state.IdChangeVariable,
         pass: this.state.onPassChangeVariable
       })

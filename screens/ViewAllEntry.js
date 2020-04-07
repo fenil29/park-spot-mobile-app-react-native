@@ -29,7 +29,7 @@ import { GlobalContext } from "../context/GlobalState";
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
 
-import URL from "../constants/apiUrl";
+import serverUrl from "../constants/apiUrl";
 import axios from "axios";
 
 export class ViewAllEntry extends Component {
@@ -50,10 +50,10 @@ export class ViewAllEntry extends Component {
   componentDidMount = () => {
     console.log(this.context.state.loginData.user_user_id);
     axios
-      .get(URL + "/history/id/" + this.context.state.loginData.user_user_id)
+      .get(serverUrl + "/history/id/" + this.context.state.loginData.user_user_id)
       .then((response) => {
-        console.log(response.data.slice(0, 20));
-        this.setState({ data: response.data.slice(0, 20) });
+        console.log(response.data);
+        this.setState({ data: response.data});
         this.setState({ loading: false });
       })
       .catch((error) => {
@@ -74,7 +74,7 @@ export class ViewAllEntry extends Component {
             data={this.state.data}
             renderItem={({ item }) => {
               let inTime = new Date(item.in_time).toLocaleString();
-              let outTime = new Date(item.out_time).toLocaleString();
+              let outTime = item.out_time ? new Date(item.out_time).toLocaleString():"  -";
 
               return (
                 <View style={{ marginHorizontal: 20 }}>
@@ -92,9 +92,9 @@ export class ViewAllEntry extends Component {
                         marginVertical: 10,
                       }}
                     >
-                      <Text>Parking Lot name</Text>
+                      <Text>{item.pd_loc_name}</Text>
                       <View>
-                        <Text>payment</Text>
+                        <Text>{item.payment} ₹</Text>
                       </View>
                     </View>
                     <View>
