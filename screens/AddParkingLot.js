@@ -13,7 +13,7 @@ import {
   TouchableNativeFeedback,
   StatusBar,
   ActivityIndicator,
-  Alert
+  Alert,
 } from "react-native";
 
 import {
@@ -21,7 +21,7 @@ import {
   Icon,
   Layout,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from "@ui-kitten/components";
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
@@ -46,9 +46,9 @@ export class AddParkingLot extends Component {
     hourlyRate: "",
     totalSpot: "",
     partotalSpotError: false,
-    loadingSpinner: false
+    loadingSpinner: false,
   };
-  BackIcon = style => <Icon {...style} name="arrow-ios-back-outline" />;
+  BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
 
   BackAction = () => (
     <TopNavigationAction
@@ -60,7 +60,7 @@ export class AddParkingLot extends Component {
     if (Platform.OS === "android" && !Constants.isDevice) {
       this.setState({
         errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!",
       });
     } else {
       this._getLocationAsync();
@@ -99,7 +99,7 @@ export class AddParkingLot extends Component {
     }
   };
 
-  onLocationChange = e => {
+  onLocationChange = (e) => {
     this.setState({ location: { coords: e } });
   };
   onSelectMapClose = () => {
@@ -116,19 +116,19 @@ export class AddParkingLot extends Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
-        errorMessage: false
+        errorMessage: false,
       });
     }
     if (status == "granted") {
       this.setState({
-        errorMessage: true
+        errorMessage: true,
       });
     }
 
     let location = await Location.getCurrentPositionAsync({});
     // this.setState({ location });
     this.setState({
-      location: { coords: { latitude: 22.599936, longitude: 72.8205 } }
+      location: { coords: { latitude: 22.599936, longitude: 72.8205 } },
     });
   };
 
@@ -143,18 +143,15 @@ export class AddParkingLot extends Component {
     return (
       <Layout style={styles.container}>
         {this.state.selectLocationMapsModel &&
-        this.state.errorMessage &&
-        this.state.location ? (
-          <SelectLocationMaps
-            selectLocationMapsModel={this.state.selectLocationMapsModel}
-            onSelectMapClose={this.onSelectMapClose}
-            location={this.state.location}
-            onLocationChange={this.onLocationChange}
-          />
-        ) : (
-          <View />
-        )}
-
+          this.state.errorMessage &&
+          this.state.location && (
+            <SelectLocationMaps
+              selectLocationMapsModel={this.state.selectLocationMapsModel}
+              onSelectMapClose={this.onSelectMapClose}
+              location={this.state.location}
+              onLocationChange={this.onLocationChange}
+            />
+          )}
         <TopNavigation
           title="Add Parking Lot"
           alignment="center"
@@ -164,7 +161,7 @@ export class AddParkingLot extends Component {
         <View
           style={{
             alignItems: "center",
-            marginTop: 10
+            marginTop: 10,
           }}
         >
           <View
@@ -172,14 +169,14 @@ export class AddParkingLot extends Component {
               style.style.input,
               this.state.parkingLotNameError
                 ? { borderColor: "red", borderWidth: 1 }
-                : {}
+                : {},
             ]}
           >
             <TextInput
               maxLength={50}
-              onChange={text => this.onChange("parkingLotName", text)}
+              onChange={(text) => this.onChange("parkingLotName", text)}
               style={{
-                width: "85%"
+                width: "85%",
                 // borderColor:"red",
                 // borderWidth:10
                 // ,fontSize:10
@@ -196,14 +193,14 @@ export class AddParkingLot extends Component {
               style.style.input,
               this.state.parkingLotAddressError
                 ? { borderColor: "red", borderWidth: 1 }
-                : {}
+                : {},
             ]}
           >
             <TextInput
               maxLength={200}
-              onChange={text => this.onChange("parkingLotAddress", text)}
+              onChange={(text) => this.onChange("parkingLotAddress", text)}
               style={{
-                width: "85%"
+                width: "85%",
                 // ,fontSize:10
               }}
               placeholder="Parking Lot Address"
@@ -218,15 +215,15 @@ export class AddParkingLot extends Component {
               style.style.input,
               this.state.parkingLotPinCodeError
                 ? { borderColor: "red", borderWidth: 1 }
-                : {}
+                : {},
             ]}
           >
             <TextInput
               keyboardType="numeric"
               maxLength={20}
-              onChange={text => this.onChange("parkingLotPinCode", text)}
+              onChange={(text) => this.onChange("parkingLotPinCode", text)}
               style={{
-                width: "85%"
+                width: "85%",
                 // ,fontSize:10
               }}
               placeholder="Parking Lot Pin Code"
@@ -240,9 +237,9 @@ export class AddParkingLot extends Component {
             <TextInput
               keyboardType="number-pad"
               maxLength={20}
-              onChange={text => this.onChange("HourlyRate", text)}
+              onChange={(text) => this.onChange("HourlyRate", text)}
               style={{
-                width: "85%"
+                width: "85%",
                 // ,fontSize:10
               }}
               placeholder="Hourly Rate"
@@ -254,15 +251,15 @@ export class AddParkingLot extends Component {
               style.style.input,
               this.state.partotalSpotError
                 ? { borderColor: "red", borderWidth: 1 }
-                : {}
+                : {},
             ]}
           >
             <TextInput
               keyboardType="number-pad"
               maxLength={20}
-              onChange={text => this.onChange("totalSpot", text)}
+              onChange={(text) => this.onChange("totalSpot", text)}
               style={{
-                width: "85%"
+                width: "85%",
                 // ,fontSize:10
               }}
               placeholder="Total Spot"
@@ -281,7 +278,7 @@ export class AddParkingLot extends Component {
               width: "80%",
               // backgroundColor:"red",
               padding: 0,
-              marginBottom: 0
+              marginBottom: 0,
             }}
           >
             <TouchableOpacity
@@ -305,11 +302,11 @@ export class AddParkingLot extends Component {
                 shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
-                  height: 1
+                  height: 1,
                 },
                 shadowOpacity: 0.22,
                 shadowRadius: 2.22,
-                elevation: 3
+                elevation: 3,
               }}
             >
               <View>
@@ -330,7 +327,7 @@ export class AddParkingLot extends Component {
               style={{
                 alignItems: "center",
                 width: "100%",
-                marginVertical: 30
+                marginVertical: 30,
               }}
             >
               <View style={style.style.button}>
@@ -354,7 +351,7 @@ export default AddParkingLot;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
     // paddingTop: Platform.OS === "android" ? 24 : 0
-  }
+  },
 });

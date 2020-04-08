@@ -110,7 +110,7 @@ export class ParkingLotDetails extends Component {
           delete responseData.date;
           for (let hourData in responseData) {
             chratData.push(responseData[hourData]);
-            console.log(hourData);
+            console.log(responseData[hourData]);
           }
         }
 
@@ -262,7 +262,7 @@ export class ParkingLotDetails extends Component {
           {!this.state.graphLoading ? (
             !this.state.graphData.length == 0 ? (
               <ScrollView horizontal={true}>
-                <View style={{ width: 18 * this.state.graphData.length }}>
+                <View style={{ width: 16 * this.state.graphData.length }}>
                   <View style={{ height: 250, flexDirection: "row" }}>
                     <View style={{marginTop:90,marginRight:10}}>
                       <Text style={{fontSize:11}}>s</Text>
