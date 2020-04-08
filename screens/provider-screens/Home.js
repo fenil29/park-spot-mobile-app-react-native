@@ -11,27 +11,27 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   StatusBar,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import {
   Icon,
   Layout,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from "@ui-kitten/components";
 
 import Colors from "../../constants/colors";
 
 import ScanQrCodeCard from "../../components/ScanQrCodeCard";
-import ParkingSpotsCard from "../../components/ParkingSpotsCard";
+import ParkingSpotsCard from "../../components/ParkingLotsCard";
 import AddParkingLotCard from "../../components/AddParkingLotCard";
 import MyParkingLotCard from "../../components/MyParkingLotCard";
 
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
 export class Home extends Component {
-  BackIcon = style => <Icon {...style} name="menu-outline" />;
+  BackIcon = (style) => <Icon {...style} name="menu-outline" />;
 
   BackAction = () => (
     <TopNavigationAction
@@ -56,7 +56,7 @@ export class Home extends Component {
             justifyContent: "space-between",
             marginHorizontal: 20,
             // marginTop: 30,
-            flexWrap: "wrap"
+            flexWrap: "wrap",
             // height:"10"
           }}
         >
@@ -85,7 +85,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
     // paddingTop: Platform.OS === "android" ? 24 : 0
-  }
+  },
 });

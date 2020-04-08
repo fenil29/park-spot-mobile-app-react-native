@@ -12,6 +12,7 @@ import {
   TouchableNativeFeedback,
   StatusBar,
   FlatList,
+  RefreshControl,
 } from "react-native";
 
 import {
@@ -37,6 +38,7 @@ export class ViewAllEntry extends Component {
   state = {
     data: [],
     loading: true,
+    refreshLoading: false,
   };
 
   BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
@@ -48,18 +50,31 @@ export class ViewAllEntry extends Component {
     />
   );
   componentDidMount = () => {
-    console.log(this.context.state.loginData.user_user_id);
+    this.setState({ loading: true });
+    this.fetchAllEntry();
+  };
+  handleRefresh = () => {
+    this.setState({ refreshLoading: true });
+    this.fetchAllEntry();
+  };
+  fetchAllEntry = () => {
     axios
-      .get(serverUrl + "/history/id/" + this.context.state.loginData.user_user_id)
+      .get(
+        serverUrl + "/history/id/" + this.context.state.loginData.user_user_id
+      )
       .then((response) => {
-        console.log(response.data);
-        this.setState({ data: response.data});
-        this.setState({ loading: false });
+        console.log(response.data[0]);
+        this.setState({
+          data: response.data,
+          loading: false,
+          refreshLoading: false,
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   render() {
     return (
       <Layout style={styles.container}>
@@ -70,11 +85,19 @@ export class ViewAllEntry extends Component {
         />
         {!this.state.loading ? (
           <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshLoading}
+                onRefresh={this.handleRefresh}
+              />
+            }
             keyExtractor={(item, index) => index.toString()}
             data={this.state.data}
             renderItem={({ item }) => {
               let inTime = new Date(item.in_time).toLocaleString();
-              let outTime = item.out_time ? new Date(item.out_time).toLocaleString():"  -";
+              let outTime = item.out_time
+                ? new Date(item.out_time).toLocaleString()
+                : "  -";
 
               return (
                 <View style={{ marginHorizontal: 20 }}>
