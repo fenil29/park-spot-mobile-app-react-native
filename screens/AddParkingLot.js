@@ -14,6 +14,7 @@ import {
   StatusBar,
   ActivityIndicator,
   Alert,
+  ToastAndroid,
 } from "react-native";
 
 import {
@@ -32,7 +33,15 @@ import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
+import axios from "axios";
+
+import serverUrl from "../constants/apiUrl";
+
+import { GlobalContext } from "../context/GlobalState";
+
 export class AddParkingLot extends Component {
+  static contextType = GlobalContext;
+
   state = {
     selectLocationMapsModel: false,
     location: false,
@@ -43,7 +52,7 @@ export class AddParkingLot extends Component {
     parkingLotAddressError: false,
     parkingLotPinCode: "",
     parkingLotPinCodeError: false,
-    hourlyRate: "",
+    hourlyRate: 0,
     totalSpot: "",
     partotalSpotError: false,
     loadingSpinner: false,
@@ -70,33 +79,62 @@ export class AddParkingLot extends Component {
   handleSignIn = () => {
     this.setState({ loadingSpinner: true });
     if (this.state.parkingLotName.length == 0) {
-      this.setState({ parkingLotNameError: true });
+      this.setState({ parkingLotNameError: "required" });
+      this.setState({ loadingSpinner: false });
+    } else if (this.state.parkingLotName.length < 3) {
+      this.setState({ parkingLotNameError: "Minimum 3 character required" });
       this.setState({ loadingSpinner: false });
     } else {
       this.setState({ parkingLotNameError: false });
-      this.setState({ loadingSpinner: false });
     }
     if (this.state.parkingLotAddress.length == 0) {
       this.setState({ parkingLotAddressError: true });
       this.setState({ loadingSpinner: false });
     } else {
       this.setState({ parkingLotAddressError: false });
-      this.setState({ loadingSpinner: false });
     }
     if (this.state.parkingLotPinCode.length == 0) {
       this.setState({ parkingLotPinCodeError: true });
       this.setState({ loadingSpinner: false });
     } else {
       this.setState({ parkingLotPinCodeError: false });
-      this.setState({ loadingSpinner: false });
     }
     if (this.state.totalSpot.length == 0) {
       this.setState({ partotalSpotError: true });
       this.setState({ loadingSpinner: false });
     } else {
       this.setState({ partotalSpotError: false });
-      this.setState({ loadingSpinner: false });
     }
+
+    axios
+      .post(serverUrl + "/parking", {
+        name: this.state.parkingLotName,
+        address: this.state.parkingLotAddress,
+        pin: this.state.parkingLotPinCode,
+        longitude: String(this.state.location.coords.longitude),
+        latitude: String(this.state.location.coords.latitude),
+        price: this.state.hourlyRate,
+        owner_id: this.context.state.loginData.user_user_id,
+        total: this.state.totalSpot,
+      })
+      .then((response) => {
+        this.setState({ loadingSpinner: false });
+
+        ToastAndroid.show("Parking Lot Created Successfully", 2000);
+      })
+      .catch((error) => {
+        this.setState({ loadingSpinner: false });
+        console.log(error);
+        if (
+          error.response &&
+          error.response.status === 400 &&
+          error.response.data == "Invalid Data"
+        ) {
+          ToastAndroid.show("Invalid Data", 2000);
+        } else {
+          ToastAndroid.show("Something went wrong, please try again", 2000);
+        }
+      });
   };
 
   onLocationChange = (e) => {
@@ -128,16 +166,37 @@ export class AddParkingLot extends Component {
     let location = await Location.getCurrentPositionAsync({});
     // this.setState({ location });
     this.setState({
-      location: { coords: { latitude: 22.599936, longitude: 72.8205 } },
+      // location: { coords: { latitude: 22.599936, longitude: 72.8205 } },
+      location: location,
     });
   };
 
   render() {
     if (this.state.errorMessage === null) {
-      return <Text>Requesting for Location permission</Text>;
+      return (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>Requesting for Location permission</Text>
+        </View>
+      );
     }
     if (this.state.errorMessage === false) {
-      return <Text>Allow Location Permission to Use This Feature</Text>;
+      return (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>Allow Location Permission to Use This Feature</Text>
+        </View>
+      );
     }
 
     return (
@@ -186,7 +245,9 @@ export class AddParkingLot extends Component {
             ></TextInput>
           </View>
           {this.state.parkingLotNameError && (
-            <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+            <Text style={{ color: "red", fontSize: 13 }}>
+              {this.state.parkingLotNameError}
+            </Text>
           )}
           <View
             style={[
@@ -237,7 +298,7 @@ export class AddParkingLot extends Component {
             <TextInput
               keyboardType="number-pad"
               maxLength={20}
-              onChange={(text) => this.onChange("HourlyRate", text)}
+              onChange={(text) => this.onChange("hourlyRate", text)}
               style={{
                 width: "85%",
                 // ,fontSize:10
