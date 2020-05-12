@@ -29,9 +29,6 @@ import Colors from "../constants/colors";
 import style from "../constants/style";
 
 import SelectLocationMaps from "./SelectLocationMaps";
-import Constants from "expo-constants";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 
 import axios from "axios";
 
@@ -45,7 +42,6 @@ export class AddParkingLot extends Component {
   state = {
     selectLocationMapsModel: false,
     location: false,
-    errorMessage: null,
     parkingLotName: "",
     parkingLotNameError: false,
     parkingLotAddress: "",
@@ -65,46 +61,45 @@ export class AddParkingLot extends Component {
       onPressIn={() => this.props.navigation.goBack()}
     />
   );
-  componentWillMount() {
-    if (Platform.OS === "android" && !Constants.isDevice) {
-      this.setState({
-        errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!",
-      });
-    } else {
-      this._getLocationAsync();
-    }
-  }
 
   handleSignIn = () => {
-    this.setState({ loadingSpinner: true });
+    let error = false;
     if (this.state.parkingLotName.length == 0) {
       this.setState({ parkingLotNameError: "required" });
-      this.setState({ loadingSpinner: false });
+      error = true;
     } else if (this.state.parkingLotName.length < 3) {
       this.setState({ parkingLotNameError: "Minimum 3 character required" });
-      this.setState({ loadingSpinner: false });
+      error = true;
     } else {
       this.setState({ parkingLotNameError: false });
     }
     if (this.state.parkingLotAddress.length == 0) {
       this.setState({ parkingLotAddressError: true });
-      this.setState({ loadingSpinner: false });
+      error = true;
     } else {
       this.setState({ parkingLotAddressError: false });
     }
     if (this.state.parkingLotPinCode.length == 0) {
       this.setState({ parkingLotPinCodeError: true });
-      this.setState({ loadingSpinner: false });
+      error = true;
     } else {
       this.setState({ parkingLotPinCodeError: false });
     }
     if (this.state.totalSpot.length == 0) {
       this.setState({ partotalSpotError: true });
-      this.setState({ loadingSpinner: false });
+      error = true;
     } else {
       this.setState({ partotalSpotError: false });
     }
+    if (this.state.location === false) {
+      ToastAndroid.show("Please Select Location First", 2000);
+
+      error = true;
+    }
+    if (error) {
+      return;
+    }
+    this.setState({ loadingSpinner: true });
 
     axios
       .post(serverUrl + "/parking", {
@@ -137,11 +132,9 @@ export class AddParkingLot extends Component {
       });
   };
 
-  onLocationChange = (e) => {
-    this.setState({ location: { coords: e } });
-  };
-  onSelectMapClose = () => {
+  onSelectMapClose = (loc) => {
     this.setState({ selectLocationMapsModel: false });
+    this.setState({ location: loc });
   };
   onChange = (name, e) => {
     let text = e.nativeEvent.text;
@@ -150,67 +143,17 @@ export class AddParkingLot extends Component {
   handleSelectLocation = () => {
     this.setState({ selectLocationMapsModel: true });
   };
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: false,
-      });
-    }
-    if (status == "granted") {
-      this.setState({
-        errorMessage: true,
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    // this.setState({ location });
-    this.setState({
-      // location: { coords: { latitude: 22.599936, longitude: 72.8205 } },
-      location: location,
-    });
-  };
 
   render() {
-    if (this.state.errorMessage === null) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text>Requesting for Location permission</Text>
-        </View>
-      );
-    }
-    if (this.state.errorMessage === false) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text>Allow Location Permission to Use This Feature</Text>
-        </View>
-      );
-    }
-
     return (
       <Layout style={styles.container}>
-        {this.state.selectLocationMapsModel &&
-          this.state.errorMessage &&
-          this.state.location && (
-            <SelectLocationMaps
-              selectLocationMapsModel={this.state.selectLocationMapsModel}
-              onSelectMapClose={this.onSelectMapClose}
-              location={this.state.location}
-              onLocationChange={this.onLocationChange}
-            />
-          )}
+        {this.state.selectLocationMapsModel && (
+          <SelectLocationMaps
+            location={this.state.location}
+            selectLocationMapsModel={this.state.selectLocationMapsModel}
+            onSelectMapClose={this.onSelectMapClose}
+          />
+        )}
         <TopNavigation
           title="Add Parking Lot"
           alignment="center"
