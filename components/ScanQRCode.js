@@ -9,7 +9,6 @@ import {
   TopNavigation,
   TopNavigationAction,
   Icon,
-
 } from "@ui-kitten/components";
 
 export default function App(props) {

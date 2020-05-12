@@ -16,6 +16,7 @@ import {
   ActivityIndicator,
   AsyncStorage,
   KeyboardAvoidingView,
+  ToastAndroid,
 } from "react-native";
 
 import Colors from "../constants/colors";
@@ -23,7 +24,15 @@ import style from "../constants/style";
 
 import { CheckBox } from "@ui-kitten/components";
 
+import { GlobalContext } from "../context/GlobalState";
+
+import axios from "axios";
+
+import serverUrl from "../constants/apiUrl";
+
 export class SignUp extends Component {
+  static contextType = GlobalContext;
+
   state = {
     emailIdChangeVariable: "",
     passChangeVariable: "",
@@ -35,11 +44,8 @@ export class SignUp extends Component {
     lastNameError: false,
     emailIdError: false,
     passwordError: false,
+    emailExistError: false,
   };
-  // firstTimeForLoginDataRetrieval=true;
-
-  // emailIdChangeVariable = "";
-  // passChangeVariable = "";
   onIdChange = (text) => {
     this.setState({ emailIdChangeVariable: text });
     console.log(this.state.emailIdChangeVariable);
@@ -57,45 +63,48 @@ export class SignUp extends Component {
     console.log(this.state.lastName);
   };
   onaccessBoolChange = (bool) => {
-    // console.log(bool)
     this.setState((prevState) => ({
       accessBool: !prevState.accessBool,
     }));
   };
 
   handleSignUp = () => {
-    let error=false
+    let error = false;
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!this.state.firstName.length) {
-      this.setState({ firstNameError: true });
-      error=true
+      this.setState({ firstNameError: "required" });
+      error = true;
+    } else if (this.state.firstName.length < 3) {
+      this.setState({ firstNameError: "Minimum 3 character required" });
     } else {
       this.setState({ firstNameError: false });
     }
 
     if (!this.state.lastName.length) {
-      this.setState({ lastNameError: true });
-      error=true
+      this.setState({ lastNameError: required });
+      error = true;
+    } else if (this.state.lastName.length < 3) {
+      this.setState({ lastNameError: "Minimum 3 character required" });
     } else {
       this.setState({ lastNameError: false });
     }
 
     if (!this.state.emailIdChangeVariable.length) {
       this.setState({ emailIdError: "Required" });
-      error=true
+      error = true;
     } else if (reg.test(this.state.emailIdChangeVariable) == false) {
       this.setState({ emailIdError: "Enter valid Email" });
-      error=true
+      error = true;
     } else {
       this.setState({ emailIdError: false });
     }
 
     if (!this.state.passChangeVariable.length) {
       this.setState({ passwordError: "Required" });
-      error=true
+      error = true;
     } else if (this.state.passChangeVariable.length < 5) {
       this.setState({ passwordError: "Minimum 5 character required" });
-      error=true
+      error = true;
     } else {
       this.setState({ passwordError: false });
     }
@@ -103,16 +112,17 @@ export class SignUp extends Component {
       return;
     }
     this.setState({ loadingSpinner: true });
+    this.setState({ emailExistError: false });
     axios
-      .post( serverUrl + "/users", {
+      .post(serverUrl + "/users", {
         email: this.state.emailIdChangeVariable,
         pass: this.state.passChangeVariable,
         fname: this.state.firstName,
         lname: this.state.lastName,
         access_right: this.state.accessBool ? "provider" : "user",
       })
-      .then(response => {
-        console.log(response);
+      .then((response) => {
+        console.log(response.data.access_right);
         if (response.data.access_right == "user") {
           this.context.setLoginInfo(response.data);
           this.storeStateInLocalStorage(response.data);
@@ -123,15 +133,30 @@ export class SignUp extends Component {
           this.props.Cprops.navigation.replace("ProviderHomeScreen");
         } else {
           this.setState({ loadingSpinner: false });
-          this.setState({ wrongIdPassError: true });
+          ToastAndroid.show("Something went wrong, please try again", 2000);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         this.setState({ loadingSpinner: false });
-        this.setState({ wrongIdPassError: true });
+        if (error.response && error.response.status === 400) {
+          if (error.response.data == "Email-id already exists") {
+            this.setState({ emailExistError: true });
+          } else if (error.response.data == "Invalid Data") {
+            ToastAndroid.show("Invalid Data", 2000);
+          }
+        } else {
+          ToastAndroid.show("Something went wrong, please try again", 2000);
+        }
       });
-
+  };
+  storeStateInLocalStorage = async (state) => {
+    try {
+      await AsyncStorage.setItem("token", JSON.stringify(state));
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
   };
   render() {
     return (
@@ -139,7 +164,6 @@ export class SignUp extends Component {
         <View
           style={{
             flexDirection: "row",
-            //   backgroundColor: "#666",
             justifyContent: "space-between",
             width: "80%",
           }}
@@ -158,14 +182,12 @@ export class SignUp extends Component {
               onChangeText={(text) => this.firstNameChange(text)}
               style={{
                 width: "80%",
-                //  backgroundColor: "#222"
               }}
               placeholder="First Name"
             ></TextInput>
           </View>
 
           <View
-            // style={...style.style.input,{width:"50%"}}
             style={[
               style.style.input,
               { width: "48%" },
@@ -179,14 +201,15 @@ export class SignUp extends Component {
               onChangeText={(text) => this.lastNameChange(text)}
               style={{
                 width: "80%",
-                //  backgroundColor: "#222"
               }}
               placeholder="Last Name"
             ></TextInput>
           </View>
         </View>
         {(this.state.lastNameError || this.state.firstNameError) && (
-          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+          <Text style={{ color: "red", fontSize: 13 }}>
+            {this.state.firstNameError || this.state.lastNameError}
+          </Text>
         )}
         <View
           style={[
@@ -241,8 +264,18 @@ export class SignUp extends Component {
             onPressIn={this.onaccessBoolChange}
           />
         </View>
-
-        {/* <Text style={{ color: "red", fontSize: 13,marginTop:13 }}>Wrong User Id or Password</Text> */}
+        {this.state.emailExistError && (
+          <Text
+            style={{
+              color: "red",
+              fontSize: 13,
+              marginTop: 10,
+              marginBottom: -10,
+            }}
+          >
+            This Email is already taken.Please try another
+          </Text>
+        )}
 
         {!this.state.loadingSpinner ? (
           <TouchableOpacity
@@ -267,13 +300,6 @@ export class SignUp extends Component {
             color={Colors.primary}
           />
         )}
-        {/* <View>
-          <TouchableWithoutFeedback onPress={() => {}}>
-            <Text style={{ textDecorationLine: "underline" }}>
-              Create account as Parking Provider
-            </Text>
-          </TouchableWithoutFeedback>
-        </View> */}
       </View>
     );
   }

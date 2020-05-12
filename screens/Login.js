@@ -15,10 +15,10 @@ import {
   BackHandler,
   ActivityIndicator,
   AsyncStorage,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 
-import { Layout, Tab, TabView, Text } from "@ui-kitten/components";
+import { Layout, Tab, TabBar, Text } from "@ui-kitten/components";
 
 // import { MaterialCommunityIcons,AntDesign } from "@expo/vector-icons";
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
@@ -28,12 +28,11 @@ import Colors from "../constants/colors";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
-
 export default class Login extends Component {
   state = {
-    selectedIndex: 0
+    selectedIndex: 0,
   };
-  setSelectedIndex = e => {
+  setSelectedIndex = (e) => {
     // console.log(e)
     this.setState({ selectedIndex: e });
   };
@@ -54,7 +53,7 @@ export default class Login extends Component {
               // backgroundColor: "#444",
               // alignItems: "center",
               // justifyContent:"center",
-              paddingTop: 50
+              paddingTop: 50,
             }}
           >
             {/* <Image
@@ -78,7 +77,7 @@ export default class Login extends Component {
                   maxWidth: 250,
                   height: 100,
                   resizeMode: "contain",
-                  marginBottom: 10
+                  marginBottom: 10,
 
                   // backgroundColor: "#999"
                 }}
@@ -87,18 +86,19 @@ export default class Login extends Component {
 
             {/* <Text>FIND MY SPOT</Text> */}
 
-            <TabView
+            <TabBar
               selectedIndex={this.state.selectedIndex}
               onSelect={this.setSelectedIndex}
               // indicatorStyle={{backgroundColor:Colors.primary}}
             >
-              <Tab title="Sign In">
-                <SignIn Cprops={this.props} />
-              </Tab>
-              <Tab title="Sign Up">
-                <SignUp Cprops={this.props} />
-              </Tab>
-            </TabView>
+              <Tab title="Sign In">{/* <SignIn Cprops={this.props} /> */}</Tab>
+              <Tab title="Sign Up">{/* <SignUp Cprops={this.props} /> */}</Tab>
+            </TabBar>
+            {this.state.selectedIndex == 0 ? (
+              <SignIn Cprops={this.props} />
+            ) : (
+              <SignUp Cprops={this.props} />
+            )}
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     // height:"100%",
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
     // alignItems: "center"
     // justifyContent: 'center',
   },
   tabContainer: {
-    minHeight: 64
-  }
+    minHeight: 64,
+  },
 });

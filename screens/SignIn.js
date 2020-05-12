@@ -15,7 +15,8 @@ import {
   BackHandler,
   ActivityIndicator,
   AsyncStorage,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ToastAndroid,
 } from "react-native";
 
 import Colors from "../constants/colors";
@@ -25,8 +26,7 @@ import { GlobalContext } from "../context/GlobalState";
 
 import axios from "axios";
 
-import serverUrl from "../constants/apiUrl"
-
+import serverUrl from "../constants/apiUrl";
 
 export class SignIn extends Component {
   static contextType = GlobalContext;
@@ -37,30 +37,19 @@ export class SignIn extends Component {
     loadingSpinner: false,
     userIdError: false,
     passwordError: false,
-    // wrongIdPassError: false
-    wrongIdPassError: false
+    wrongIdPassError: false,
   };
-  onIdChange = text => {
+  onIdChange = (text) => {
     this.setState({ IdChangeVariable: text });
     console.log(this.state.IdChangeVariable);
   };
-  onPassChange = pass => {
+  onPassChange = (pass) => {
     this.setState({ onPassChangeVariable: pass });
     console.log(this.state.onPassChangeVariable);
   };
   componentDidMount() {}
   handleSignIn = () => {
     let error = false;
-    // this.props.Cprops.navigation.navigate("HomeScreen");
-    // context.setLoginInfo({
-    //   name: "fromloginScreen",
-    //   loggedIn: true
-    // });
-
-    // console.log("here");
-    // console.log( typeof this.state.IdChangeVariable == "function", typeof this.state.onPassChangeVariable)
-    // this.props.navigation.navigate('FirstLogin')
-    // if()
     this.setState({ loadingSpinner: true });
     this.setState({ wrongIdPassError: false });
 
@@ -93,18 +82,13 @@ export class SignIn extends Component {
     if (error) {
       return;
     }
-    // this.setState({ loadingSpinner: false });
-    // Alert.alert("Wrong Id or Password");
-
-    // this.setState({ loadingSpinner: false });
-    // Alert.alert("Try Again");
 
     axios
-      .post( serverUrl + "/users/login", {
-        id: this.state.IdChangeVariable,
-        pass: this.state.onPassChangeVariable
+      .post(serverUrl + "/users/login", {
+        email: this.state.IdChangeVariable,
+        pass: this.state.onPassChangeVariable,
       })
-      .then(response => {
+      .then((response) => {
         console.log(response);
         if (response.data.access_right == "user") {
           this.context.setLoginInfo(response.data);
@@ -116,16 +100,23 @@ export class SignIn extends Component {
           this.props.Cprops.navigation.replace("ProviderHomeScreen");
         } else {
           this.setState({ loadingSpinner: false });
-          this.setState({ wrongIdPassError: true });
+          ToastAndroid.show("Something went wrong, please try again", 2000);
         }
       })
-      .catch(error => {
-        console.log(error);
+      .catch((error) => {
         this.setState({ loadingSpinner: false });
-        this.setState({ wrongIdPassError: true });
+        if (
+          error.response &&
+          error.response.status === 400 &&
+          error.response.data == "Please enter correct E-mail or password"
+        ) {
+          this.setState({ wrongIdPassError: true });
+        } else {
+          ToastAndroid.show("Something went wrong, please try again", 2000);
+        }
       });
   };
-  storeStateInLocalStorage = async state => {
+  storeStateInLocalStorage = async (state) => {
     try {
       await AsyncStorage.setItem("token", JSON.stringify(state));
     } catch (error) {
@@ -135,106 +126,90 @@ export class SignIn extends Component {
   };
   render() {
     return (
-          <View
+      <View
+        style={{
+          alignItems: "center",
+          marginTop: 20,
+        }}
+      >
+        <View
+          style={[
+            style.style.input,
+            this.state.userIdError
+              ? { borderColor: "red", borderWidth: 1 }
+              : {},
+          ]}
+        >
+          <TextInput
+            maxLength={50}
+            onChangeText={(text) => this.onIdChange(text)}
             style={{
-              alignItems: "center",
-              marginTop: 20
+              width: "85%",
+            }}
+            placeholder="Email Id"
+            require
+          ></TextInput>
+        </View>
+        {this.state.userIdError && (
+          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+        )}
+        <View
+          style={[
+            style.style.input,
+            this.state.passwordError
+              ? { borderColor: "red", borderWidth: 1 }
+              : {},
+          ]}
+        >
+          <TextInput
+            maxLength={50}
+            onChangeText={(pass) => this.onPassChange(pass)}
+            style={{ width: "85%" }}
+            placeholder="Password"
+            secureTextEntry={true}
+            required
+          ></TextInput>
+        </View>
+        {this.state.passwordError && (
+          <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
+        )}
+        {this.state.wrongIdPassError && (
+          <Text
+            style={{
+              color: "red",
+              fontSize: 13,
+              marginTop: 13,
+              marginBottom: -15,
             }}
           >
-            <View
-              style={[
-                style.style.input,
-                this.state.userIdError
-                  ? { borderColor: "red", borderWidth: 1 }
-                  : {}
-              ]}
-            >
-              <TextInput
-                maxLength={50}
-                onChangeText={text => this.onIdChange(text)}
-                style={{
-                  width: "85%"
-                  // ,fontSize:10
-                }}
-                placeholder="User Id"
-                require
-              ></TextInput>
-            </View>
-            {this.state.userIdError && (
-              <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
-            )}
-            <View
-              style={[
-                style.style.input,
-                this.state.passwordError
-                  ? { borderColor: "red", borderWidth: 1 }
-                  : {}
-              ]}
-            >
-              <TextInput
-                maxLength={50}
-                onChangeText={pass => this.onPassChange(pass)}
-                style={{ width: "85%" }}
-                placeholder="Password"
-                secureTextEntry={true}
-                required
-              ></TextInput>
-            </View>
-            {this.state.passwordError && (
-              <Text style={{ color: "red", fontSize: 13 }}>Required</Text>
-            )}
-            {this.state.wrongIdPassError && (
-              // <Text
-              //   style={{
-              //     color: "red",
-              //     fontSize: 13,
-              //     marginTop: 8,
-              //     marginBottom: -25
-              //   }}
-              // >
-              //   Wrong Id or Password!
-              // </Text>
-              <Text
-                style={{
-                  color: "red",
-                  fontSize: 13,
-                  marginTop: 13,
-                  marginBottom: -15
-                }}
-              >
-                Wrong User Id or Password!
-              </Text>
-            )}
+            Wrong User Id or Password!
+          </Text>
+        )}
 
-            {!this.state.loadingSpinner ? (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => {
-                  this.handleSignIn();
-                  // context.setLoginInfo({
-                  //   name: "fromloginScreen",
-                  //   loggedIn: true
-                  // });
-                }}
-                style={{
-                  alignItems: "center",
-                  width: "100%",
-                  marginVertical: 30
-                }}
-              >
-                <View style={style.style.button}>
-                  <Text style={{ color: "white" }}>Sign In</Text>
-                </View>
-              </TouchableOpacity>
-            ) : (
-              <ActivityIndicator
-                style={{ height: 50, marginVertical: 30 }}
-                size="large"
-                color={Colors.primary}
-              />
-            )}
-          </View>
-     
+        {!this.state.loadingSpinner ? (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              this.handleSignIn();
+            }}
+            style={{
+              alignItems: "center",
+              width: "100%",
+              marginVertical: 30,
+            }}
+          >
+            <View style={style.style.button}>
+              <Text style={{ color: "white" }}>Sign In</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <ActivityIndicator
+            style={{ height: 50, marginVertical: 30 }}
+            size="large"
+            color={Colors.primary}
+          />
+        )}
+      </View>
     );
   }
 }
@@ -243,8 +218,7 @@ export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-    // paddingTop: Platform.OS === "android" ? 24 : 0
+    flex: 1,
   },
   input: {
     width: "80%",
@@ -259,11 +233,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    elevation: 3
-    // backgroundColor:"#e8e8e8"
-  }
+    elevation: 3,
+  },
 });
