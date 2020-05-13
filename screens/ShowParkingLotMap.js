@@ -38,7 +38,7 @@ import {
 
 import axios from "axios";
 
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, Foundation } from "@expo/vector-icons";
 
 export default class ShowParkingLotMap extends React.Component {
   state = {
@@ -49,6 +49,7 @@ export default class ShowParkingLotMap extends React.Component {
     isLoading: true,
     permission: false,
     getUserLocationLoading: false,
+    tooltipVisible: true,
   };
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -77,6 +78,9 @@ export default class ShowParkingLotMap extends React.Component {
           isLoading: false,
         });
       });
+    setTimeout(() => {
+      this.setState({ tooltipVisible: false });
+    }, 5000);
   }
   componentWillMount() {}
   getUserLocation = async () => {
@@ -122,6 +126,40 @@ export default class ShowParkingLotMap extends React.Component {
           alignment="center"
           leftControl={this.BackAction()}
         />
+        {this.state.tooltipVisible && (
+          <View
+            style={{
+              // height: 40,
+              // width: "100%",
+              borderWidth: 1,
+              // padding: 5,
+              borderRadius: 8,
+              backgroundColor: "#ffffff",
+              position: "absolute",
+              left: 10,
+              right: 10,
+              top: 70,
+              zIndex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              // marginHorizontal: 10,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
+            <Foundation
+              name="info"
+              size={24}
+              color="black"
+              style={{ margin: 10 }}
+            />
+            <Text>
+              You can Click on marker and title of marker for more information
+              about a parking lot
+            </Text>
+          </View>
+        )}
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
@@ -160,8 +198,9 @@ export default class ShowParkingLotMap extends React.Component {
               }}
             >
               {this.state.parkingLotList &&
-                this.state.parkingLotList.map((mapInfo) => (
+                this.state.parkingLotList.map((mapInfo, index) => (
                   <MapView.Marker
+                    key={index}
                     coordinate={{
                       latitude: Number(mapInfo.latitude),
                       longitude: Number(mapInfo.longitude),
