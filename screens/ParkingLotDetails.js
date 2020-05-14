@@ -37,32 +37,7 @@ import serverUrl from "../constants/apiUrl";
 export class ParkingLotDetails extends Component {
   state = {
     data: this.props.navigation.state.params.data,
-    graphData: [
-      7,
-      6,
-      4,
-      3,
-      1,
-      5,
-      8,
-      6,
-      4,
-      2,
-      4,
-      6,
-      2,
-      6,
-      3,
-      6,
-      2,
-      1,
-      7,
-      8,
-      5,
-      3,
-      1,
-      10,
-    ],
+    graphData: [],
     graphLoading: true,
     showDatePicker: false,
     date: Date.now() - 24 * 60 * 60 * 1000 * 1,
@@ -97,20 +72,28 @@ export class ParkingLotDetails extends Component {
       .post(serverUrl + "/lothistory", {
         lotid: this.state.data.pd_lot_id,
         date: dateString,
+        // date: "21-1-2020",
       })
       .then((response) => {
         this.setState({ graphLoading: false });
         let chratData = [];
         let responseData;
-        // console.log(response.data);
-        if (!response.data[0] == 0) {
-          responseData = response.data[0];
-          delete responseData.pd_lot_id;
-          delete responseData.lh_id;
-          delete responseData.date;
-          for (let hourData in responseData) {
-            chratData.push(responseData[hourData]);
-            console.log(responseData[hourData]);
+        console.log(response.data);
+        if (!(response.data === "not available")) {
+          if (response.data.type === "day") {
+            responseData = response.data;
+            delete responseData.pd_lot_id;
+            delete responseData.lh_id;
+            delete responseData.date;
+            delete responseData.type;
+            console.log(responseData);
+
+            for (let hourData in Object.keys(responseData)) {
+              chratData.push(responseData[`hour_${hourData}`]);
+              console.log(hourData, "-", responseData[`hour_${hourData}`]);
+              // chratData.push(responseData[hourData]);
+              // console.log(responseData[hourData]);
+            }
           }
         }
 
@@ -209,7 +192,7 @@ export class ParkingLotDetails extends Component {
               marginBottom: 10,
             }}
           >
-            Parking Lot History
+            Parking Lot Occupied Spot History
           </Text>
           <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
@@ -238,8 +221,11 @@ export class ParkingLotDetails extends Component {
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress ={() => {
-                this.setDatePicker(true);
+              onPress={() => {
+                if (this.state.dataVisualizationType == "week") {
+                } else if (this.state.dataVisualizationType == "day") {
+                  this.setDatePicker(true);
+                }
               }}
               style={{
                 ...style.style.input,
@@ -248,7 +234,11 @@ export class ParkingLotDetails extends Component {
                 justifyContent: "center",
               }}
             >
-              <Text>
+              <Text
+                style={{
+                  opacity: this.state.dataVisualizationType == "week" ? 0.3 : 1,
+                }}
+              >
                 {/* Select Date */}
                 {today.getDate() +
                   " - " +
@@ -264,11 +254,11 @@ export class ParkingLotDetails extends Component {
               <ScrollView horizontal={true}>
                 <View style={{ width: 16 * this.state.graphData.length }}>
                   <View style={{ height: 250, flexDirection: "row" }}>
-                    <View style={{marginTop:90,marginRight:10}}>
-                      <Text style={{fontSize:11}}>s</Text>
-                      <Text style={{fontSize:11}}>p</Text>
-                      <Text style={{fontSize:11}}>o</Text>
-                      <Text style={{fontSize:11}}>t</Text>
+                    <View style={{ marginTop: 90, marginRight: 10 }}>
+                      <Text style={{ fontSize: 11 }}>s</Text>
+                      <Text style={{ fontSize: 11 }}>p</Text>
+                      <Text style={{ fontSize: 11 }}>o</Text>
+                      <Text style={{ fontSize: 11 }}>t</Text>
                     </View>
 
                     <YAxis
@@ -277,15 +267,15 @@ export class ParkingLotDetails extends Component {
                         fill: "black",
                         fontSize: 10,
                       }}
-                      contentInset={{ top: 40, bottom: 20 }}
+                      contentInset={{ top: 30, bottom: 10 }}
                       numberOfTicks={10}
                       formatLabel={(value) => `${value}`}
                     />
                     <BarChart
-                      style={{ flex: 1, marginLeft: 16 }}
+                      style={{ flex: 1, marginLeft: 10 }}
                       data={this.state.graphData}
                       svg={{ fill: Colors.primary }}
-                      contentInset={{ top: 30, bottom: 30 }}
+                      contentInset={{ top: 30, bottom: 7 }}
                     >
                       <Grid />
                     </BarChart>
@@ -294,12 +284,13 @@ export class ParkingLotDetails extends Component {
                     style={{ marginHorizontal: 0 }}
                     data={this.state.graphData}
                     formatLabel={(value, index) => index}
-                    contentInset={{ left: 30, right: 10 }}
+                    contentInset={{ left: 46, right: 7 }}
                     svg={{ fontSize: 10, fill: "black" }}
                   />
-                  <View style={{alignItems:"center"}}>
-
-                  <Text style={{fontSize:12}}>{this.state.dataVisualizationType}</Text>
+                  <View style={{ alignItems: "center" }}>
+                    <Text style={{ fontSize: 12 }}>
+                      {this.state.dataVisualizationType == "day" ? "hours" : ""}
+                    </Text>
                   </View>
                 </View>
               </ScrollView>

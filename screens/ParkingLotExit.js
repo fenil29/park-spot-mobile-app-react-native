@@ -99,9 +99,9 @@ export class ParkingLotExit extends Component {
                   elevation: 6,
                 }}
               >
-                <Text>Your Parking Spot Is:</Text>
-                <Text style={{ textAlign: "center", fontSize: 150 }}>
-                  {this.state.data.spot_no}
+                <Text>Your Total Payment:</Text>
+                <Text style={{ textAlign: "center", fontSize: 70 }}>
+                  {this.state.data.Payment}
                 </Text>
               </View>
               <View
