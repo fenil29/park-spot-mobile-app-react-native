@@ -70,7 +70,7 @@ export class ParkingLotDetails extends Component {
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     if (this.state.dataVisualizationType === "day") {
       axios
-        .post(serverUrl + "/lothistory", {
+        .post(serverUrl + "/lot-history", {
           lotid: this.state.data.pd_lot_id,
           date: dateString,
           // date: "21-1-2020",
@@ -109,7 +109,7 @@ export class ParkingLotDetails extends Component {
     } else if (this.state.dataVisualizationType === "month") {
       console.log(dateString);
       axios
-        .post(serverUrl + "/lothistory-by-month", {
+        .post(serverUrl + "/lot-history-by-month", {
           lotid: this.state.data.pd_lot_id,
           month: dateString.split("-")[1],
           year: dateString.split("-")[0],
@@ -147,7 +147,9 @@ export class ParkingLotDetails extends Component {
     }
   };
   onVisualizationTypeChange = (type) => {
-    this.setState({ dataVisualizationType: type });
+    this.setState({ dataVisualizationType: type }, () => {
+      this.fetchLotDetailsFormServer(this.state.date);
+    });
   };
   setDatePicker = (bool) => {
     this.setState({ showDatePicker: bool });
@@ -304,7 +306,7 @@ export class ParkingLotDetails extends Component {
           {!this.state.graphLoading ? (
             !this.state.graphData.length == 0 ? (
               <ScrollView horizontal={true}>
-                <View style={{ width: 20 * this.state.graphData.length }}>
+                <View style={{ width: 18 * this.state.graphData.length }}>
                   <View style={{ height: 250, flexDirection: "row" }}>
                     <View style={{ marginTop: 90, marginRight: 10 }}>
                       <Text style={{ fontSize: 11 }}>s</Text>
@@ -327,18 +329,18 @@ export class ParkingLotDetails extends Component {
                       style={{ flex: 1, marginLeft: 10 }}
                       data={this.state.graphData}
                       svg={{ fill: Colors.primary }}
-                      contentInset={{ top: 30, bottom: 7 }}
+                      contentInset={{ top: 30, bottom: 13 }}
                     >
                       <Grid />
                     </BarChart>
                   </View>
                   <XAxis
-                    style={{ marginHorizontal: 0 }}
+                    style={{ marginHorizontal: 0, marginTop: 5 }}
                     data={this.state.graphDataXAxis}
                     formatLabel={(value, index) =>
                       this.state.graphDataXAxis[index]
                     }
-                    contentInset={{ left: 46, right: 7 }}
+                    contentInset={{ left: 46, right: 9 }}
                     svg={{ fontSize: 10, fill: "black" }}
                   />
                   <View style={{ alignItems: "center" }}>
