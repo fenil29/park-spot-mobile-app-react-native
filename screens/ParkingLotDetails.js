@@ -38,6 +38,7 @@ export class ParkingLotDetails extends Component {
   state = {
     data: this.props.navigation.state.params.data,
     graphData: [],
+    graphDataXAxis: [],
     graphLoading: true,
     showDatePicker: false,
     date: Date.now() - 24 * 60 * 60 * 1000 * 1,
@@ -67,42 +68,83 @@ export class ParkingLotDetails extends Component {
     let date = new Date(timestamp);
     let dateString =
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    if (this.state.dataVisualizationType === "day") {
+      axios
+        .post(serverUrl + "/lothistory", {
+          lotid: this.state.data.pd_lot_id,
+          date: dateString,
+          // date: "21-1-2020",
+        })
+        .then((response) => {
+          this.setState({ graphLoading: false });
+          let graphDataTemp = [];
+          let graphDataXAxisTemp = [];
+          console.log(response.data);
+          if (!(response.data === "not available")) {
+            if (response.data.type === "day") {
+              let responseData = response.data;
+              delete responseData.pd_lot_id;
+              delete responseData.lh_id;
+              delete responseData.date;
+              delete responseData.type;
+              console.log(responseData);
 
-    axios
-      .post(serverUrl + "/lothistory", {
-        lotid: this.state.data.pd_lot_id,
-        date: dateString,
-        // date: "21-1-2020",
-      })
-      .then((response) => {
-        this.setState({ graphLoading: false });
-        let chratData = [];
-        let responseData;
-        console.log(response.data);
-        if (!(response.data === "not available")) {
-          if (response.data.type === "day") {
-            responseData = response.data;
-            delete responseData.pd_lot_id;
-            delete responseData.lh_id;
-            delete responseData.date;
-            delete responseData.type;
-            console.log(responseData);
-
-            for (let hourData in Object.keys(responseData)) {
-              chratData.push(responseData[`hour_${hourData}`]);
-              console.log(hourData, "-", responseData[`hour_${hourData}`]);
-              // chratData.push(responseData[hourData]);
-              // console.log(responseData[hourData]);
+              for (let hourData in Object.keys(responseData)) {
+                graphDataXAxisTemp.push(hourData);
+                graphDataTemp.push(responseData[`hour_${hourData}`]);
+                console.log(hourData, "-", responseData[`hour_${hourData}`]);
+              }
             }
           }
-        }
 
-        this.setState({ graphData: chratData });
-      })
-      .catch((error) => {
-        this.setState({ graphLoading: false });
-        console.log(error);
-      });
+          this.setState({
+            graphData: graphDataTemp,
+            graphDataXAxis: graphDataXAxisTemp,
+          });
+        })
+        .catch((error) => {
+          this.setState({ graphLoading: false });
+          console.log(error);
+        });
+    } else if (this.state.dataVisualizationType === "month") {
+      console.log(dateString);
+      axios
+        .post(serverUrl + "/lothistory-by-month", {
+          lotid: this.state.data.pd_lot_id,
+          month: dateString.split("-")[1],
+          year: dateString.split("-")[0],
+          // date: "21-1-2020",
+        })
+        .then((response) => {
+          this.setState({ graphLoading: false });
+          let graphDataTemp = [];
+          let graphDataXAxisTemp = [];
+          console.log(response.data);
+          if (!(response.data === "not available")) {
+            if (response.data.type === "month") {
+              let responseData = response.data;
+              delete responseData.type;
+              delete responseData.month;
+              delete responseData.year;
+              // console.log(responseData);
+              for (let i in responseData) {
+                graphDataTemp.push(Math.round(responseData[i]));
+                graphDataXAxisTemp.push(i);
+                console.log(i, "-", Math.round(responseData[i]));
+              }
+            }
+          }
+
+          this.setState({
+            graphData: graphDataTemp,
+            graphDataXAxis: graphDataXAxisTemp,
+          });
+        })
+        .catch((error) => {
+          this.setState({ graphLoading: false });
+          console.log(error);
+        });
+    }
   };
   onVisualizationTypeChange = (type) => {
     this.setState({ dataVisualizationType: type });
@@ -112,7 +154,7 @@ export class ParkingLotDetails extends Component {
   };
   render() {
     let lotInfo = this.state.data;
-    let today = new Date(this.state.date);
+    let currentDate = new Date(this.state.date);
     return (
       <ScrollView style={styles.container}>
         <TopNavigation
@@ -216,13 +258,16 @@ export class ParkingLotDetails extends Component {
                 }
               >
                 <Picker.Item label="day" value="day" />
-                <Picker.Item label="week" value="week" />
+                {/* <Picker.Item label="week" value="week" /> */}
+                <Picker.Item label="month" value="month" />
               </Picker>
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {
-                if (this.state.dataVisualizationType == "week") {
+                if (this.state.dataVisualizationType == "month") {
+                  this.setDatePicker(true);
+                } else if (this.state.dataVisualizationType == "week") {
                 } else if (this.state.dataVisualizationType == "day") {
                   this.setDatePicker(true);
                 }
@@ -235,16 +280,23 @@ export class ParkingLotDetails extends Component {
               }}
             >
               <Text
-                style={{
-                  opacity: this.state.dataVisualizationType == "week" ? 0.3 : 1,
-                }}
+                style={
+                  {
+                    // opacity: this.state.dataVisualizationType == "week" ? 0.3 : 1,
+                  }
+                }
               >
                 {/* Select Date */}
-                {today.getDate() +
-                  " - " +
-                  (today.getMonth() + 1) +
-                  " - " +
-                  today.getFullYear()}
+                {this.state.dataVisualizationType === "day"
+                  ? currentDate.getDate() +
+                    " - " +
+                    (currentDate.getMonth() + 1) +
+                    " - " +
+                    currentDate.getFullYear()
+                  : currentDate.getMonth() +
+                    1 +
+                    " - " +
+                    currentDate.getFullYear()}
               </Text>
             </TouchableOpacity>
           </View>
@@ -252,7 +304,7 @@ export class ParkingLotDetails extends Component {
           {!this.state.graphLoading ? (
             !this.state.graphData.length == 0 ? (
               <ScrollView horizontal={true}>
-                <View style={{ width: 16 * this.state.graphData.length }}>
+                <View style={{ width: 20 * this.state.graphData.length }}>
                   <View style={{ height: 250, flexDirection: "row" }}>
                     <View style={{ marginTop: 90, marginRight: 10 }}>
                       <Text style={{ fontSize: 11 }}>s</Text>
@@ -282,14 +334,18 @@ export class ParkingLotDetails extends Component {
                   </View>
                   <XAxis
                     style={{ marginHorizontal: 0 }}
-                    data={this.state.graphData}
-                    formatLabel={(value, index) => index}
+                    data={this.state.graphDataXAxis}
+                    formatLabel={(value, index) =>
+                      this.state.graphDataXAxis[index]
+                    }
                     contentInset={{ left: 46, right: 7 }}
                     svg={{ fontSize: 10, fill: "black" }}
                   />
                   <View style={{ alignItems: "center" }}>
                     <Text style={{ fontSize: 12 }}>
-                      {this.state.dataVisualizationType == "day" ? "hours" : ""}
+                      {this.state.dataVisualizationType == "day"
+                        ? "hours"
+                        : "days"}
                     </Text>
                   </View>
                 </View>
