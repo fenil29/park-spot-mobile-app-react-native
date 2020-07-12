@@ -30,6 +30,8 @@ import ShowParkingLotMap from "../screens/ShowParkingLotMap";
 import SelectLocationMaps from "../screens/SelectLocationMaps";
 import QRCodeGenerator from "../screens/QRCodeGenerator";
 import Logout from "../screens/Logout";
+import { GlobalContext } from "../context/GlobalState";
+
 
 import Colors from "../constants/colors";
 
@@ -40,9 +42,14 @@ import {
   SimpleLineIcons
 } from "@expo/vector-icons";
 
-const CustomDrawerComponent = props => {
-  return (
-    <SafeAreaView
+
+
+class CustomDrawerComponent extends Component {
+  static contextType = GlobalContext;
+
+  render() {
+    return (
+      <SafeAreaView
       style={{
         flex: 1
       }}
@@ -57,14 +64,16 @@ const CustomDrawerComponent = props => {
           // flex:1,
         }}
       >
-        <Text style={{ color: "#fff", fontSize: 18 }}>Fenil Kaneria</Text>
+        <Text style={{ color: "#fff", fontSize: 18 }}>{this.context.state.loginData.user_first_name +" "+ this.context.state.loginData.user_last_name}</Text>
       </View>
       <ScrollView>
-        <DrawerItems {...props} />
+        <DrawerItems {...this.props} />
       </ScrollView>
     </SafeAreaView>
-  );
-};
+    );
+  }
+}
+
 
 const SideNavigatorProvider = createDrawerNavigator(
   {
