@@ -70,21 +70,21 @@ export default class Login extends Component {
           /> */}
             <View style={{ alignItems: "center" }}>
               <Image
-                source={require("../assets/logo.png")}
+                source={require("../assets/car.png")}
                 sc
                 style={{
-                  width: "50%",
-                  maxWidth: 250,
-                  height: 100,
+                  width: "100%",
+                  // maxWidth: 250,
+                  height: 200,
                   resizeMode: "contain",
                   marginBottom: 10,
+                  marginTop: -10,
+                  // backgroundColor:"red"
 
                   // backgroundColor: "#999"
                 }}
               />
             </View>
-
-            {/* <Text>FIND MY SPOT</Text> */}
 
             <TabBar
               selectedIndex={this.state.selectedIndex}
