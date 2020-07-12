@@ -52,6 +52,11 @@ export class ParkingSpotDetails extends Component {
     axios
       .post(serverUrl + "/spot/get/" + this.context.state.loginData.user_user_id, {
         lotId: lotId,
+      },
+      {
+        headers: {
+          "jwt-token": this.context.state.loginData["jwt-token"],
+        },
       })
       .then((response) => {
         console.log(response.data);

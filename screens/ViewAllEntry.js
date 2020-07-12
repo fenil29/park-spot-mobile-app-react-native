@@ -60,7 +60,11 @@ export class ViewAllEntry extends Component {
   fetchAllEntry = () => {
     axios
       .get(
-        serverUrl + "/history/id/" + this.context.state.loginData.user_user_id
+        serverUrl + "/history/id/" + this.context.state.loginData.user_user_id, {
+          headers: {
+            "jwt-token": this.context.state.loginData["jwt-token"],
+          },
+        }
       )
       .then((response) => {
         console.log(response.data[0]);
