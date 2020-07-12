@@ -40,7 +40,12 @@ import axios from "axios";
 
 import { MaterialIcons, Foundation } from "@expo/vector-icons";
 
+import { GlobalContext } from "../context/GlobalState";
+
+
 export default class ShowParkingLotMap extends React.Component {
+  static contextType = GlobalContext;
+
   state = {
     selectLocationMapsModel: false,
     location: { coords: { latitude: 32.715069, longitude: -117.15552 } },
@@ -53,7 +58,11 @@ export default class ShowParkingLotMap extends React.Component {
   };
   componentDidMount() {
     this.setState({ isLoading: true });
-    axios(serverUrl + "/parking")
+    axios(serverUrl + "/parking", {
+      headers: {
+        "jwt-token": this.context.state.loginData["jwt-token"],
+      },
+    })
       .then((response) => {
         let responseDate = response.data;
         this.setState({ isLoading: false });

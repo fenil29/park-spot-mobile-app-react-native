@@ -47,11 +47,11 @@ export class ParkingSpotDetails extends Component {
 
   componentDidMount = () => {
     console.log(this.props.navigation.state.params.data);
-    let spotId = this.props.navigation.state.params.data.id;
-    console.log(serverUrl + "/spot/get/" + spotId);
+    let lotId = this.props.navigation.state.params.data.id;
+    console.log(serverUrl + "/spot/get/" + lotId);
     axios
-      .post(serverUrl + "/spot/get/" + spotId, {
-        user: this.context.state.loginData.user_user_id,
+      .post(serverUrl + "/spot/get/" + this.context.state.loginData.user_user_id, {
+        lotId: lotId,
       })
       .then((response) => {
         console.log(response.data);

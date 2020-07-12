@@ -34,7 +34,13 @@ import style from "../constants/style";
 import axios from "axios";
 import serverUrl from "../constants/apiUrl";
 
+import { GlobalContext } from "../context/GlobalState";
+
+
 export class ParkingLotDetails extends Component {
+  static contextType = GlobalContext;
+
+
   state = {
     data: this.props.navigation.state.params.data,
     graphData: [],
@@ -70,11 +76,18 @@ export class ParkingLotDetails extends Component {
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     if (this.state.dataVisualizationType === "day") {
       axios
-        .post(serverUrl + "/lot-history", {
-          lotid: this.state.data.pd_lot_id,
-          date: dateString,
-          // date: "21-1-2020",
-        })
+        .post(
+          serverUrl + "/lot-history/" + this.state.data.pd_lot_id,
+          {
+            date: dateString,
+            // date: "21-1-2020",
+          },
+          {
+            headers: {
+              "jwt-token": this.context.state.loginData["jwt-token"],
+            },
+          }
+        )
         .then((response) => {
           this.setState({ graphLoading: false });
           let graphDataTemp = [];
@@ -109,11 +122,15 @@ export class ParkingLotDetails extends Component {
     } else if (this.state.dataVisualizationType === "month") {
       console.log(dateString);
       axios
-        .post(serverUrl + "/lot-history-by-month", {
-          lotid: this.state.data.pd_lot_id,
+        .post(serverUrl + "/lot-history-by-month/"+this.state.data.pd_lot_id, {
           month: dateString.split("-")[1],
           year: dateString.split("-")[0],
           // date: "21-1-2020",
+        },
+        {
+          headers: {
+            "jwt-token": this.context.state.loginData["jwt-token"],
+          },
         })
         .then((response) => {
           this.setState({ graphLoading: false });

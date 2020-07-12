@@ -2,7 +2,6 @@ import React, { Component, UserContext } from "react";
 
 import {
   StyleSheet,
-  //  Text,
   View,
   BackHandler,
   SafeAreaView,
@@ -13,6 +12,8 @@ import {
   StatusBar,
   FlatList,
   RefreshControl,
+  ToastAndroid,
+
 } from "react-native";
 
 import {
@@ -27,10 +28,9 @@ import {
 import { AreaChart, Grid } from "react-native-svg-charts";
 import { GlobalContext } from "../context/GlobalState";
 
-// import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/colors";
-
 import serverUrl from "../constants/apiUrl";
+
 import axios from "axios";
 
 export class ViewAllEntry extends Component {
@@ -72,6 +72,9 @@ export class ViewAllEntry extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.setState({ loading: false });
+        ToastAndroid.show("Something went wrong. Please try again", 2000);
+
       });
   };
 
@@ -84,53 +87,57 @@ export class ViewAllEntry extends Component {
           leftControl={this.BackAction()}
         />
         {!this.state.loading ? (
-          <FlatList
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshLoading}
-                onRefresh={this.handleRefresh}
-              />
-            }
-            keyExtractor={(item, index) => index.toString()}
-            data={this.state.data}
-            renderItem={({ item }) => {
-              let inTime = new Date(item.in_time).toLocaleString();
-              let outTime = item.out_time
-                ? new Date(item.out_time).toLocaleString()
-                : "  -";
+          this.state.data.length === 0 ? (
+            <Text style={{ textAlign: "center" }}>No Data available</Text>
+          ) : (
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshLoading}
+                  onRefresh={this.handleRefresh}
+                />
+              }
+              keyExtractor={(item, index) => index.toString()}
+              data={this.state.data}
+              renderItem={({ item }) => {
+                let inTime = new Date(item.in_time).toLocaleString();
+                let outTime = item.out_time
+                  ? new Date(item.out_time).toLocaleString()
+                  : "  -";
 
-              return (
-                <View style={{ marginHorizontal: 20 }}>
-                  <View
-                    style={{
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                    }}
-                  >
+                return (
+                  <View style={{ marginHorizontal: 20 }}>
                     <View
                       style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginVertical: 10,
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
                       }}
                     >
-                      <Text>{item.pd_loc_name}</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          marginVertical: 10,
+                        }}
+                      >
+                        <Text>{item.pd_loc_name}</Text>
+                        <View>
+                          <Text>{item.payment} ₹</Text>
+                        </View>
+                      </View>
                       <View>
-                        <Text>{item.payment} ₹</Text>
+                        <Text>Entry Time : {inTime}</Text>
+                        <Text>
+                          Exit Time{"   "} : {outTime}
+                        </Text>
                       </View>
                     </View>
-                    <View>
-                      <Text>Entry Time : {inTime}</Text>
-                      <Text>
-                        Exit Time{"   "} : {outTime}
-                      </Text>
-                    </View>
                   </View>
-                </View>
-              );
-            }}
-          />
+                );
+              }}
+            />
+          )
         ) : (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

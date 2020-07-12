@@ -55,11 +55,11 @@ export class MyProfile extends Component {
   EditAction = () => (
     <TopNavigationAction
       icon={this.EditIcon}
-      onPressIn={() =>
-        this.setState((prevState) => ({
-          editMode: !prevState.editMode,
-        }))
-      }
+      // onPressIn={() =>
+      //   this.setState((prevState) => ({
+      //     editMode: !prevState.editMode,
+      //   }))
+      // }
     />
   );
   onFirstNameChange = (text) => {

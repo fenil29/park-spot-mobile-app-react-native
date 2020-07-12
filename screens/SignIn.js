@@ -91,12 +91,12 @@ export class SignIn extends Component {
       .then((response) => {
         console.log(response);
         if (response.data.access_right == "user") {
-          this.context.setLoginInfo(response.data);
-          this.storeStateInLocalStorage(response.data);
+          this.context.setLoginInfo({...response.data,"jwt-token":response.headers.token});
+          this.storeStateInLocalStorage({...response.data,"jwt-token":response.headers.token});
           this.props.Cprops.navigation.replace("UserHomeScreen");
         } else if (response.data.access_right == "provider") {
-          this.context.setLoginInfo(response.data);
-          this.storeStateInLocalStorage(response.data);
+          this.context.setLoginInfo({...response.data,"jwt-token":response.headers.token});
+          this.storeStateInLocalStorage({...response.data,"jwt-token":response.headers.token});
           this.props.Cprops.navigation.replace("ProviderHomeScreen");
         } else {
           this.setState({ loadingSpinner: false });

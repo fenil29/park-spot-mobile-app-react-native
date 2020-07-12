@@ -102,16 +102,23 @@ export class AddParkingLot extends Component {
     this.setState({ loadingSpinner: true });
 
     axios
-      .post(serverUrl + "/parking", {
-        name: this.state.parkingLotName,
-        address: this.state.parkingLotAddress,
-        pin: this.state.parkingLotPinCode,
-        longitude: String(this.state.location.coords.longitude),
-        latitude: String(this.state.location.coords.latitude),
-        price: this.state.hourlyRate,
-        owner_id: this.context.state.loginData.user_user_id,
-        total: this.state.totalSpot,
-      })
+      .post(
+        serverUrl + "/parking" + this.context.state.loginData.user_user_id,
+        {
+          name: this.state.parkingLotName,
+          address: this.state.parkingLotAddress,
+          pin: this.state.parkingLotPinCode,
+          longitude: String(this.state.location.coords.longitude),
+          latitude: String(this.state.location.coords.latitude),
+          price: this.state.hourlyRate,
+          total: this.state.totalSpot,
+        },
+        {
+          headers: {
+            "jwt-token": this.context.state.loginData["jwt-token"],
+          },
+        }
+      )
       .then((response) => {
         this.setState({ loadingSpinner: false });
 

@@ -12,6 +12,7 @@ import {
   TouchableNativeFeedback,
   StatusBar,
   FlatList,
+  ToastAndroid,
 } from "react-native";
 
 import {
@@ -31,7 +32,6 @@ import serverUrl from "../constants/apiUrl";
 
 import { GlobalContext } from "../context/GlobalState";
 
-
 import axios from "axios";
 export class MyParkingLot extends Component {
   static contextType = GlobalContext;
@@ -50,9 +50,13 @@ export class MyParkingLot extends Component {
   );
   componentDidMount = () => {
     // console.log()
-    let userId=this.context.state.loginData.user_user_id
+    let userId = this.context.state.loginData.user_user_id;
     axios
-      .get(serverUrl + "/parking/" + userId)
+      .get(serverUrl + "/parking/" + userId, {
+        headers: {
+          "jwt-token": this.context.state.loginData["jwt-token"],
+        },
+      })
       .then((response) => {
         console.log(response.data);
         this.setState({ data: response.data });
@@ -60,6 +64,8 @@ export class MyParkingLot extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.setState({ loading: false });
+        ToastAndroid.show("Something went wrong. Please try again", 2000);
       });
   };
 
@@ -72,54 +78,58 @@ export class MyParkingLot extends Component {
           leftControl={this.BackAction()}
         />
         {!this.state.loading ? (
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => (
-              <TouchableNativeFeedback
-                // key={item.pd_lot_id}
-                onPress={() =>
-                  this.props.navigation.navigate("ParkingLotDetails", {
-                    data: item,
-                  })
-                }
-              >
-                <View style={{ marginHorizontal: 20 }}>
-                  <View
-                    style={{
-                      borderBottomWidth: 1,
-                    }}
-                  >
+          this.state.data.length === 0 ? (
+            <Text style={{ textAlign: "center" }}>No Data available</Text>
+          ) : (
+            <FlatList
+              data={this.state.data}
+              renderItem={({ item }) => (
+                <TouchableNativeFeedback
+                  // key={item.pd_lot_id}
+                  onPress={() =>
+                    this.props.navigation.navigate("ParkingLotDetails", {
+                      data: item,
+                    })
+                  }
+                >
+                  <View style={{ marginHorizontal: 20 }}>
                     <View
                       style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginVertical: 20,
+                        borderBottomWidth: 1,
                       }}
                     >
-                      <Text>{item.pd_loc_name}</Text>
-                      <TouchableNativeFeedback
-                        onPress={() =>
-                          this.props.navigation.navigate("QRCodeGenerator", {
-                            data: item,
-                          })
-                        }
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          marginVertical: 20,
+                        }}
                       >
-                        <MaterialCommunityIcons
-                          name="qrcode"
-                          size={30}
-                          color="black"
-                          // color={Colors.primary}
-                          color="black"
-                        />
-                      </TouchableNativeFeedback>
+                        <Text>{item.pd_loc_name}</Text>
+                        <TouchableNativeFeedback
+                          onPress={() =>
+                            this.props.navigation.navigate("QRCodeGenerator", {
+                              data: item,
+                            })
+                          }
+                        >
+                          <MaterialCommunityIcons
+                            name="qrcode"
+                            size={30}
+                            color="black"
+                            // color={Colors.primary}
+                            color="black"
+                          />
+                        </TouchableNativeFeedback>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableNativeFeedback>
-            )}
-            keyExtractor={(item) => item.pd_lot_id}
-          />
+                </TouchableNativeFeedback>
+              )}
+              keyExtractor={(item) => item.pd_lot_id}
+            />
+          )
         ) : (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

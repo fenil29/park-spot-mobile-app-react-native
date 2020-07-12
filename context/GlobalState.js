@@ -1,6 +1,6 @@
 import React, { createContext, Component } from "react";
 
-export const GlobalContext = createContext("kaneria");
+export const GlobalContext = createContext();
 
 export default class GlobalState extends Component {
   state = { loginData: {} };

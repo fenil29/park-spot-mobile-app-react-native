@@ -46,12 +46,20 @@ export class ParkingLotExit extends Component {
 
   componentDidMount = () => {
     console.log(this.props.navigation.state.params.data);
-    let spotId = this.props.navigation.state.params.data.id;
-    console.log(serverUrl + "/spot/get/" + spotId);
+    let lotId = this.props.navigation.state.params.data.id;
+    console.log(serverUrl + "/spot/get/" + lotId);
     axios
-      .post(serverUrl + "/spot/left/" + spotId, {
-        user: this.context.state.loginData.user_user_id,
-      })
+      .post(
+        serverUrl + "/spot/left/" + this.context.state.loginData.user_user_id,
+        {
+          lotId: lotId,
+        },
+        {
+          headers: {
+            "jwt-token": this.context.state.loginData["jwt-token"],
+          },
+        }
+      )
       .then((response) => {
         console.log(response.data);
         this.setState({ data: response.data });
