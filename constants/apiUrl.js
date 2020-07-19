@@ -1,1 +1,1 @@
-export default "http://192.168.0.210:4001";
+export default "https://park-spot-api.herokuapp.com";
