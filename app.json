@@ -3,7 +3,6 @@
     "name": "Park Spot",
     "slug": "park-spot",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -29,6 +28,10 @@
     "androidStatusBar": {
       "backgroundColor": "#ffffff",
       "barStyle": "dark-content"
+    },
+    "android": {
+      "package": "com.fenilkaneria.parkspot",
+      "versionCode": 1
     },
     "description": "Parking Application",
     "githubUrl": "https://github.com/fenil29/virtual-parking-for-park-spot-react"
