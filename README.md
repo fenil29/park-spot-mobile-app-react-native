@@ -9,17 +9,17 @@ Park Spot is a cross-platform mobile application to find the empty parking lot a
 Application Link : https://expo.io/@fenil29/park-spot
 
 ------------
+You can use the functionality of this application using the virtual parking below, It shows all the occupied  and empty spot in realtime
+
+Link of Virtual Parking: https://virtual-parking-for-park-spot.netlify.app/
+
+------------
 Built with:
 - [React Native](https://reactnative.dev/)
 - [Node Js](https://nodejs.org/en/)
 - [Express Js](https://expressjs.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [JWT](https://jwt.io/)
-
-------------
-You can use the functionality of this application using the virtual parking below, It shows all the occupied  and empty spot in realtime
-
-Link of Virtual Parking: https://virtual-parking-for-park-spot.netlify.app/
 
 ------------
 ### Screenshorts of Application
