@@ -1,6 +1,6 @@
 # Park Spot
 
-This is the Repository of Front-end | Link of Back-end Repository : https://github.com/fenil29/park-spot-backend-node
+This is the Repository of Mobile Application | Link of Back-end Repository : https://github.com/fenil29/park-spot-backend-node
 
 ------------
 Park Spot is a cross-platform mobile application to find the empty parking lot around you using the inbuilt map functionality and automate and the parking entry and exit process using QR code. The drivers can easily scan the QR code to get the parking spot. The app is user friendly. The app takes the time of entry when a spot is provided and the time of exit when the spot is left. This application also collects all the entry and exit data of each vehicle and analyzes it for the best business decisions. In this project, there is also an automated billing system that produces the bill with respect to the time the vehicle spends in the parking lot.
