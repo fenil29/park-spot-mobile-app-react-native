@@ -17,16 +17,18 @@ Link of Virtual Parking: https://virtual-parking-for-park-spot.netlify.app/
 ------------
 ### Screenshorts of Application
 
-
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(20).jpg" width="33%">
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(9).jpg" width="33%">
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(8).jpg" width="32%">
-<br>
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(15).jpg" width="33%">
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(14).jpg" width="33%">
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(12).jpg" width="32%">
-<br>
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(4).jpg" width="33%">
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(5).jpg" width="33%">
-<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(6).jpg" width="32%">
-
+<p>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(20).jpg"  height=400>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(9).jpg"  height=400>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(8).jpg"  height=400>
+</p>
+<p>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(15).jpg"  height=400>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(14).jpg"  height=400>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(12).jpg"  height=400>
+</p>
+<p>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(4).jpg" height=400>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(5).jpg"  height=400>
+<img src="https://raw.githubusercontent.com/fenil29/park-spot-mobile-app-react-native/master/images/Screenshot%20(6).jpg"  height=400>
+</p>
