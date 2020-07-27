@@ -13,7 +13,6 @@ import {
   FlatList,
   RefreshControl,
   ToastAndroid,
-
 } from "react-native";
 
 import {
@@ -32,7 +31,7 @@ import Colors from "../constants/colors";
 import serverUrl from "../constants/apiUrl";
 
 import axios from "axios";
-
+import moment from "moment-timezone";
 export class ViewAllEntry extends Component {
   static contextType = GlobalContext;
   state = {
@@ -60,7 +59,8 @@ export class ViewAllEntry extends Component {
   fetchAllEntry = () => {
     axios
       .get(
-        serverUrl + "/history/id/" + this.context.state.loginData.user_user_id, {
+        serverUrl + "/history/id/" + this.context.state.loginData.user_user_id,
+        {
           headers: {
             "jwt-token": this.context.state.loginData["jwt-token"],
           },
@@ -78,7 +78,6 @@ export class ViewAllEntry extends Component {
         console.log(error);
         this.setState({ loading: false });
         ToastAndroid.show("Something went wrong. Please try again", 2000);
-
       });
   };
 
@@ -104,10 +103,11 @@ export class ViewAllEntry extends Component {
               keyExtractor={(item, index) => index.toString()}
               data={this.state.data}
               renderItem={({ item }) => {
-                let inTime = new Date(item.in_time).toLocaleString();
-                let outTime = item.out_time
-                  ? new Date(item.out_time).toLocaleString()
-                  : "  -";
+                // let inTime = moment.tz(item.in_time, "Asia/kolkata").format()
+                let inTime = moment(item.in_time).format("L  -  LTS")
+
+                let outTime =moment(item.out_time).format("L  -  LTS")
+
 
                 return (
                   <View style={{ marginHorizontal: 20 }}>
